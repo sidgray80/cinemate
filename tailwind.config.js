@@ -12,5 +12,5 @@ module.exports = {
 
 // To begin running tailwind:
 //
-// npx tailwindcss -i ./assets/css/style.css -o ./assets/CSS/tailwind.css --watch
+// npx tailwindcss -i ./assets/css/style.css -o ./dist/output.css --watch
 
