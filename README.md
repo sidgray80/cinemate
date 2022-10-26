@@ -26,3 +26,13 @@
 
 ## Assets 
 
+### Youtube API
+
+* Documentation: https://developers.google.com/youtube/v3
+* Key: AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k
+
+### TMDB API
+
+* Documentation: https://developers.themoviedb.org/3/getting-started/introduction
+* Key: 3c52eb6185be360b0965e24023804a4d
+* Verion 4 Key: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYzUyZWI2MTg1YmUzNjBiMDk2NWUyNDAyMzgwNGE0ZCIsInN1YiI6IjYzNTg3ZjU5NDJmMTlmMDA5MWMzMWY2NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YdJfa0kF-o3OaH4fuADYQhxsWuOp2N1yKYDz8supJ0M
