@@ -18,9 +18,37 @@ window.onclick = function (event) {
 
 
 //var userInputGenre = 'from drop down'
-var ApiKey = '3c52eb6185be360b0965e24023804a4d'
+var apiKey = '3c52eb6185be360b0965e24023804a4d'
+
+
+
+// var actionDropEl = document.getElementById("25");
+// var adventureDropEl = document.getElementById("12");
+// var comedyDropEl = document.getElementById("35");
+// var dramaDropEl = document.getElementById("18");
+// var horrorDropEl = document.getElementById("27");
+// var romanceDropEl = document.getElementById("10749");
+// var scienceFictionDropEl = document.getElementById("878");
+// var fantasyDropEl = document.getElementById("14");
+// var historicalDropEl = document.getElementById("36");
+// var crimeDropEl = document.getElementById("80");
+
+
 
 //change with_genre=37 to with_genre=' + userInput
-fetch('https://api.themoviedb.org/3/discover/movie?api_key=' + ApiKey + '&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=true&page=1&with_watch_monetization_types=flatrate&with_genres=37')
+fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=true&page=1&with_watch_monetization_types=flatrate&with_genres=28`)
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(function (data){
+      console.log(data)
+
+var movieTitle = $("#movieTitle");
+var releaseDate = $("#releaseDate")
+var movieRating = $("#movieRating")
+var movieOverview =$("#movieOverview")
+
+movieTitle.text(data.results[0].title);
+releaseDate.text(data.results[0].release_date);
+movieRating.text(data.results[0].popularity);
+movieOverview.text(data.results[0].overview);
+
+})
