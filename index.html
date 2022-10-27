@@ -1,177 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"/>
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>CineMate</title>
-  </head>
 
-  <body>
-    <header>
-      <nav
-        class="flex items-center justify-between flex-wrap bg-red-700 p-6 mb-5 shadow-xl"
-      >
-        <h1 class="text-white text-4xl font-semibold">CineMate</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <title>CineMate</title>
+</head>
 
-        <div class="relative inline-block text-left">
+<body>
+  <header>
+    <nav class="grid md:grid-cols-3 bg-red-700 p-6 mb-5 shadow-xl">
+        <h1 class="text-white text-5xl md:text-4xl text-center font-semibold">CineMate</h1>
+
+        <div class="relative inline-block text-left mt-3 md:mt-0">
           <!--dont touch this dropdown section without talking to me. - Kyle -->
           <div class="dropdown">
-            <button
-              onclick="handleDropdown()"
-              class="dropbtn inline-flex w-full justify-center rounded-md border w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-reg text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
-              id="menu-button"
-              aria-expanded="true"
-              aria-haspopup="true"
-            >
-              Select a Genre  &#9660 
+            <button onclick="handleDropdown()"
+              class="dropbtn inline-flex w-full justify-center rounded-md border w-full justify-center border-gray-300 bg-white px-4 py-2 text-reg text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+              id="menu-button" aria-expanded="true" aria-haspopup="true">
+              Select a Genre &#9660
               <!-- I have deleted this chevron icon thing. It was causing a lot of problems. I added one using a shortcut. -->
             </button>
 
             <!--
-                      Dropdown menu, show/hide based on menu state.
-                  
-                      Entering: "transition ease-out duration-100"
-                        From: "transform opacity-0 scale-95"
-                        To: "transform opacity-100 scale-100"
-                      Leaving: "transition ease-in duration-75"
-                        From: "transform opacity-100 scale-100"
-                        To: "transform opacity-0 scale-95"
-                    -->
-            <div
-              id="myDropdown"
+                        Dropdown menu, show/hide based on menu state.
+                    
+                        Entering: "transition ease-out duration-100"
+                          From: "transform opacity-0 scale-95"
+                          To: "transform opacity-100 scale-100"
+                        Leaving: "transition ease-in duration-75"
+                          From: "transform opacity-100 scale-100"
+                          To: "transform opacity-0 scale-95"
+                      -->
+            <div id="myDropdown"
               class="dropdown-content absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="menu-button"
-              tabindex="-1"
-            >
+              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="28 menu-item-0"
-                >Action</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="12 menu-item-1"
-                >Adventure</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="35 menu-item-2"
-                >Comedy</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="18 menu-item-3"
-                >Drama</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="27 menu-item-4"
-                >Horror</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="10749 menu-item-5"
-                >Romance</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="878 menu-item-6"
-                >Science Fiction</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="14 menu-item-7"
-                >Fantasy</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="36 menu-item-8"
-                >Historical</a
-              >
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100"
-                role="menuitem"
-                tabindex="-1"
-                id="80 menu-item-9"
-                >Crime</a
-              >
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100 hover:rounded-md"
+                role="menuitem" tabindex="-1" id="28 menu-item-0">Action</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="12 menu-item-1">Adventure</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="35 menu-item-2">Comedy</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="18 menu-item-3">Drama</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="27 menu-item-4">Horror</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="10749 menu-item-5">Romance</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="878 menu-item-6">Science Fiction</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="14 menu-item-7">Fantasy</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+                id="36 menu-item-8">Historical</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100 hover:rounded-md"
+                role="menuitem" tabindex="-1" id="80 menu-item-9">Crime</a>
             </div>
           </div>
         </div>
 
-        <button
-          class="bg-white text-lg text-gray-700 p-2 rounded hover:bg-slate-100"
-          id="my-list"
-        >
-          My List
-        </button>
-      </nav>
-    </header>
+        <button class="block mt-3  md:mt-0 bg-white text-reg text-gray-700 p-2 rounded hover:bg-slate-100" id="my-list">My List</button>
+    </nav>
+  </header>
 
-    <div class="container p-5 md-flex" id="container">
-      <div>
-        <form id="userInput">
-          <input id="genre" type="text" placeholder="Enter genre" />
-          <button type="submit" id="search-btn">Search</button>
-        </form>
-      </div>
+  <div class="container p-5 md-flex" id="container">
+
+
+    <div class="grid md:grid-cols-2 gap-3">
       
-      
-      <div class="grid grid-flow-col gap-3 w-full h-96">
+      <div class="trailer aspect-video bg-red-700 col-span-1 text-white" id="trailer">Trailer</div>
+
       <div class="movieReview bg-red-700 col-span-1 text-white" id="movieReview">
-        <p id="movieTitle"></p>
+        <h2 id="movieTitle" class="text-2xl"></h2>
         <p id="releaseDate"></p>
         <p id="movieRating"></p>
         <p id="movieOverview"></p>
-
-
-
       </div>
 
-      <div class="trailer bg-red-700 col-span-1 text-white" id="trailer">Trailer</div>
     </div>
   </div>
-    
-    
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="./assets/js/script.js"></script>
 
-    <footer>Footer</footer>
-  </body>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="./assets/js/script.js"></script>
+
+  <footer>Footer</footer>
+</body>
+
 </html>
