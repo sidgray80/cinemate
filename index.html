@@ -2,33 +2,38 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./dist/output.css" />
-    <title>CineMate</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./dist/output.css" />
+  <title>CineMate</title>
 </head>
 
-<body>
-    <header>
+<body class="flex flex-col min-h-screen">
+  <header>
 
-        <nav class="md:flex items-center justify-between flex-wrap bg-red-700 p-3 mb-5 shadow-xl ">
+    <nav class="md:flex items-center justify-between flex-wrap bg-red-700 p-3 mb-5 shadow-xl ">
 
-                <h1 class="text-white text-5xl md:text-4xl text-center font-semibold">CineMate</h1>
-                
-                <div class="relative inline-block text-left mt-3 md:mt-0">
-                    <div>
-                      <button type="button" class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-reg text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                        Select a Genre
-                        <!-- Heroicon name: mini/chevron-down -->
-                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                    </div>
-                  
-                    <!--
+      <h1 class="text-white text-5xl md:text-4xl text-center font-semibold">CineMate</h1>
+
+      <div class="relative inline-block text-left mt-3 md:mt-0">
+        <div>
+          <button type="button"
+            class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-reg text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+            id="menu-button" aria-expanded="true" aria-haspopup="true">
+            Select a Genre
+            <!-- Heroicon name: mini/chevron-down -->
+            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+              aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        <!--
                       Dropdown menu, show/hide based on menu state.
                   
                       Entering: "transition ease-out duration-100"
@@ -38,40 +43,63 @@
                         From: "transform opacity-100 scale-100"
                         To: "transform opacity-0 scale-95"
                     -->
-                    <div class="absolute z-10 mt-2 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                      <div class="py-1" role="none">
-                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-0">Action</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-1">Adventure</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-2">Comedy</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-3">Drama</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-4">Horror/Thriller</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-5">Romance</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-6">Science Fiction</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-7">Fantasy</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-8">Historical</a>
-                        <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1" id="menu-item-9">Crime</a>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  
-                <button class="block mt-3 md:mt-0 bg-white text-reg text-gray-700 p-2 rounded hover:bg-slate-100" id="my-list">My List</button>
+        <div
+          class="absolute z-10 mt-2 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+          <div class="py-1" role="none">
+            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-0">Action</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-1">Adventure</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-2">Comedy</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-3">Drama</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-4">Horror/Thriller</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-5">Romance</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-6">Science Fiction</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-7">Fantasy</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-8">Historical</a>
+            <a href="#" class="text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              id="menu-item-9">Crime</a>
 
-        </nav>
-    </header>
-
-    <div class="container p-5 md-flex" id="container">
-        <div>
-
+          </div>
         </div>
-        <div class="movieReview" id="movieReview">Movie Review</div>
-        <div class="trailer" id="trailer">Trailer</div>
+      </div>
+
+      <button class="block mt-3 md:mt-0 bg-white text-reg text-gray-700 p-2 rounded hover:bg-slate-100" id="my-list">My
+        List</button>
+
+    </nav>
+  </header>
+
+  <div class="container p-5 md-flex" id="container">
+    <div>
+
     </div>
+    <div class="movieReview" id="movieReview">Movie Review</div>
+    <div class="trailer" id="trailer">Trailer</div>
+  </div>
 
-    <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/script.js"></script>
 
-    <footer>Footer</footer>
+  <footer class="flex text-sm fixed inset-x-0 bottom-0">
+    <div class="p-2">
+      Film-related metadata used in Cinemate is supplied by <a href="https://www.themoviedb.org/">The Movie Database
+        &nbsp</a>(TMDB).
+      <a href="https://www.themoviedb.org/"><img class="max-w-xs h-auto p-4" src="./assets/images/tmdblogo.svg"></a>
+    </div>
+    <div class="p-2">
+      Cinemate designed and built by: Kyle Albright, Alex Berger, Sid Gray, Nataly Rodriguez, Skipper Thurman, and
+      Christian Walter.
+    </div>
+  </footer>
 </body>
 
 </html>
