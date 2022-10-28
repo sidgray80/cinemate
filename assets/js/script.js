@@ -1,3 +1,20 @@
+var apiKey = "3c52eb6185be360b0965e24023804a4d";
+var currentDay = (moment().format("DD-MM-YYYY"));
+console.log(currentDay)
+
+  var actionDropEl = document.getElementById("25");
+  var adventureDropEl = document.getElementById("12");
+  var comedyDropEl = document.getElementById("35");
+  var dramaDropEl = document.getElementById("18");
+  var horrorDropEl = document.getElementById("27");
+  var romanceDropEl = document.getElementById("10749");
+  var scienceFictionDropEl = document.getElementById("878");
+  var fantasyDropEl = document.getElementById("14");
+  var historicalDropEl = document.getElementById("36");
+  var crimeDropEl = document.getElementById("80");
+ 
+
+
 function handleDropdown() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
@@ -15,41 +32,52 @@ window.onclick = function (event) {
   }
 };
 
+window.onclick = function (event) {
+  if (event.target.matches(".genre-type0"))
+    var genreSelect = $(".genre-type0").attr("id");
+  else if (event.target.matches(".genre-type1"))
+    var genreSelect = $(".genre-type1").attr("id");
+  else if (event.target.matches(".genre-type2"))
+    var genreSelect = $(".genre-type2").attr("id");
+  else if (event.target.matches(".genre-type3"))
+    var genreSelect = $(".genre-type3").attr("id");
+  else if (event.target.matches(".genre-type4"))
+    var genreSelect = $(".genre-type4").attr("id");
+  else if (event.target.matches(".genre-type5"))
+    var genreSelect = $(".genre-type5").attr("id");
+  else if (event.target.matches(".genre-type6"))
+    var genreSelect = $(".genre-type6").attr("id");
+  else if (event.target.matches(".genre-type7"))
+    var genreSelect = $(".genre-type7").attr("id");
+  else if (event.target.matches(".genre-type8"))
+    var genreSelect = $(".genre-type8").attr("id");
+  else if (event.target.matches(".genre-type9"))
+    var genreSelect = $(".genre-type9").attr("id");
+    else {
+      return
+    }
 
+  
+  fetch(
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&include_adult=false&with_genres=${genreSelect}`
+  )
+    .then((response) => response.json())
+    .then(function (data) {
+      console.log(data);
 
-//var userInputGenre = 'from drop down'
-var apiKey = '3c52eb6185be360b0965e24023804a4d'
+      var movieTitle = $("#movieTitle");
+      var releaseDate = $("#releaseDate");
+      var movieRating = $("#movieRating");
+      var movieOverview = $("#movieOverview");
 
+      movieTitle.text(data.results[0].title);
+      releaseDate.text(data.results[0].release_date);
+      movieRating.text(data.results[0].vote_average/2);
+      movieOverview.text(data.results[0].overview);
+    });
+};
 
-
-// var actionDropEl = document.getElementById("25");
-// var adventureDropEl = document.getElementById("12");
-// var comedyDropEl = document.getElementById("35");
-// var dramaDropEl = document.getElementById("18");
-// var horrorDropEl = document.getElementById("27");
-// var romanceDropEl = document.getElementById("10749");
-// var scienceFictionDropEl = document.getElementById("878");
-// var fantasyDropEl = document.getElementById("14");
-// var historicalDropEl = document.getElementById("36");
-// var crimeDropEl = document.getElementById("80");
-
-
-
-//change with_genre=37 to with_genre=' + userInput
-fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=true&page=1&with_watch_monetization_types=flatrate&with_genres=28`)
-    .then(response => response.json())
-    .then(function (data){
-      console.log(data)
-
-var movieTitle = $("#movieTitle");
-var releaseDate = $("#releaseDate")
-var movieRating = $("#movieRating")
-var movieOverview =$("#movieOverview")
 var youtubeSearch = (data.results[0].title)
-movieTitle.text(data.results[0].title);
-releaseDate.text(data.results[0].release_date);
-movieRating.text(data.results[0].popularity);
-movieOverview.text(data.results[0].overview);
 
 //youtube stuff
 fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k`)
@@ -61,4 +89,3 @@ fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=
 })
 
 //https:www.youtube.com/watch?v=videoId
-
