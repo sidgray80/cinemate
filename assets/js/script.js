@@ -75,7 +75,7 @@ window.onclick = function (event) {
       movieRating.text(data.results[0].vote_average/2);
       movieOverview.text(data.results[0].overview);
     });
-};
+
 
 var youtubeSearch = (data.results[0].title)
 
@@ -86,6 +86,6 @@ fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=
   var videoId = (data.items[0].id.videoId)
   console.log(videoId)
 })
-})
 
+};
 //https:www.youtube.com/watch?v=videoId
