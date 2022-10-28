@@ -1,20 +1,8 @@
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
-var apiKeyYt = "AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k";
+var apiKeyYt = "AIzaSyCxcfePxYwFPi4vIK2xuiRgLTDvmgYCDrY";
 var currentDay = (moment().format("DD-MM-YYYY"));
-var videoId = ""
+var globalVideoId 
 //console.log(currentDay)
-
-var actionDropEl = document.getElementById("25");
-var adventureDropEl = document.getElementById("12");
-var comedyDropEl = document.getElementById("35");
-var dramaDropEl = document.getElementById("18");
-var horrorDropEl = document.getElementById("27");
-var romanceDropEl = document.getElementById("10749");
-var scienceFictionDropEl = document.getElementById("878");
-var fantasyDropEl = document.getElementById("14");
-var historicalDropEl = document.getElementById("36");
-var crimeDropEl = document.getElementById("80");
-
 
 
 function handleDropdown() {
@@ -83,13 +71,16 @@ window.onclick = function (event) {
       fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`)
         .then(response => response.json())
         .then(function (data) {
-          videoId = (data.items[0].id.videoId)
-          console.log(videoId)
+          localVideoId = (data.items[0].id.videoId)
+
+          globalVideoId = localVideoId
+
+          // console.log(localVideoId)
         }) 
      });
 };
 
-console.log(videoId)
+console.log(globalVideoId)
 //IFrame YouTube video player
 
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -103,6 +94,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
+  
   player = new YT.Player('player', {
     height: '300',
     width: '560',
@@ -113,7 +105,7 @@ function onYouTubeIframeAPIReady() {
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
-    }
+    } 
   });
 }
 
