@@ -45,10 +45,20 @@ var movieTitle = $("#movieTitle");
 var releaseDate = $("#releaseDate")
 var movieRating = $("#movieRating")
 var movieOverview =$("#movieOverview")
-
+var youtubeSearch = (data.results[0].title)
 movieTitle.text(data.results[0].title);
 releaseDate.text(data.results[0].release_date);
 movieRating.text(data.results[0].popularity);
 movieOverview.text(data.results[0].overview);
 
+//youtube stuff
+fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k`)
+.then(response => response.json())
+.then(function (data){
+  var videoId = (data.items[0].id.videoId)
+  console.log(videoId)
 })
+})
+
+//https:www.youtube.com/watch?v=videoId
+
