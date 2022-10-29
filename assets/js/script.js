@@ -2,7 +2,21 @@ var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
 var apiKeyYt = "AIzaSyCxcfePxYwFPi4vIK2xuiRgLTDvmgYCDrY";
 var currentDay = moment().format("DD-MM-YYYY");
 var globalVideoId;
-//console.log(currentDay)
+
+var zeroStarEl = document.getElementById("zeroStar")
+var oneStarEl = document.getElementById("oneStar")
+var twoStarEl = document.getElementById("twoStar")
+var threeStarEl = document.getElementById("threeStar")
+var fourStarEl = document.getElementById("fourStar")
+var fiveStarEl = document.getElementById("fiveStar")
+
+zeroStarEl.style.display = "none";
+oneStarEl.style.display = "none";
+twoStarEl.style.display = "none";
+threeStarEl.style.display = "none";
+fourStarEl.style.display = "none";
+fiveStarEl.style.display = "none";
+
 
 function handleDropdown() {
   document.getElementById("myDropdown").classList.toggle("show");
@@ -52,7 +66,7 @@ window.onclick = function (event) {
   )
     .then((response) => response.json())
     .then(function (data) {
-      //console.log(data);
+      console.log(data);
 
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
@@ -65,6 +79,29 @@ window.onclick = function (event) {
       movieOverview.text(data.results[0].overview);
 
       var youtubeSearch = data.results[0].title;
+      
+
+      function assignStars(){
+        if ((data.results[0].vote_average / 2) < 1) {
+          zeroStarEl.style.display = "block";
+        } 
+        else if ((data.results[0].vote_average / 2) >= 1 && (data.results[0].vote_average / 2)< 2) {
+          oneStarEl.style.display = "block";
+        } 
+        else if ((data.results[0].vote_average / 2) >= 2 && (data.results[0].vote_average / 2)< 3) {
+          twoStarEl.style.display = "block";
+      }
+        else if ((data.results[0].vote_average / 2) >= 3 && (data.results[0].vote_average / 2)< 4) {
+          threeStarEl.style.display = "block";
+        }
+      
+        else if ((data.results[0].vote_average / 2) >= 4 && (data.results[0].vote_average / 2)< 5) {
+          fourStarEl.style.display = "block";
+      }else {
+        fiveStarEl.style.display = "block";
+      }
+    }
+assignStars()
 
       //youtube stuff
       fetch(
