@@ -1,9 +1,8 @@
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
 var apiKeyYt = "AIzaSyCxcfePxYwFPi4vIK2xuiRgLTDvmgYCDrY";
-var currentDay = (moment().format("DD-MM-YYYY"));
-var globalVideoId 
+var currentDay = moment().format("DD-MM-YYYY");
+var globalVideoId;
 //console.log(currentDay)
-
 
 function handleDropdown() {
   document.getElementById("myDropdown").classList.toggle("show");
@@ -21,7 +20,8 @@ window.onclick = function (event) {
     }
   }
 };
-
+// _______________________________________________________________________________
+// _______________________________________________________________________________
 window.onclick = function (event) {
   if (event.target.matches(".genre-type0"))
     var genreSelect = $(".genre-type0").attr("id");
@@ -44,11 +44,10 @@ window.onclick = function (event) {
   else if (event.target.matches(".genre-type9"))
     var genreSelect = $(".genre-type9").attr("id");
   else {
-    return
+    return;
   }
 
-
-  fetch (
+  fetch(
     `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKeyTmdb}&language=en-US&include_adult=false&with_genres=${genreSelect}`
   )
     .then((response) => response.json())
@@ -65,47 +64,51 @@ window.onclick = function (event) {
       movieRating.text(data.results[0].vote_average / 2);
       movieOverview.text(data.results[0].overview);
 
-      var youtubeSearch = (data.results[0].title);
+      var youtubeSearch = data.results[0].title;
 
       //youtube stuff
-      fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`)
-        .then(response => response.json())
+      fetch(
+        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
+      )
+        .then((response) => response.json())
         .then(function (data) {
-          localVideoId = (data.items[0].id.videoId)
+          localVideoId = data.items[0].id.videoId;
 
-          globalVideoId = localVideoId
-
+          globalVideoId = localVideoId;
+          getGlobalID();
           // console.log(localVideoId)
-        }) 
-     });
+        });
+    });
 };
+// _______________________________________________________________________________
+// _______________________________________________________________________________
 
-console.log(globalVideoId)
 //IFrame YouTube video player
 
 // 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
+var tag = document.createElement("script");
 
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
+var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
-var player;
-function onYouTubeIframeAPIReady() {
-  
-  player = new YT.Player('player', {
-    height: '300',
-    width: '560',
-    videoId: 'M7lc1UVf-VE',
+
+function onYouTubeIframeAPIReady() {}
+function getGlobalID() {
+  var player;
+  player = new YT.Player("player", {
+    height: "300",
+    width: "560",
+    videoId: globalVideoId,
     playerVars: {
-      'playsinline': 1
+      playsinline: 1,
     },
     events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    } 
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    },
   });
 }
 
