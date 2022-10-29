@@ -1,3 +1,4 @@
+//Global Variables
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
 var apiKeyYt = "AIzaSyCxcfePxYwFPi4vIK2xuiRgLTDvmgYCDrY";
 var currentDay = moment().format("DD-MM-YYYY");
@@ -17,10 +18,14 @@ threeStarEl.style.display = "none";
 fourStarEl.style.display = "none";
 fiveStarEl.style.display = "none";
 
+// _______________________________________________________________________________
+// _______________________________________________________________________________
 
+//Window Drop-down genre select that parses to TMDB fetch
 function handleDropdown() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
+
 
 window.onclick = function (event) {
   if (!event.target.matches(".dropbtn")) {
@@ -34,8 +39,7 @@ window.onclick = function (event) {
     }
   }
 };
-// _______________________________________________________________________________
-// _______________________________________________________________________________
+
 window.onclick = function (event) {
   if (event.target.matches(".genre-type0"))
     var genreSelect = $(".genre-type0").attr("id");
@@ -61,12 +65,16 @@ window.onclick = function (event) {
     return;
   }
 
+  // _______________________________________________________________________________
+  // _______________________________________________________________________________
+
+  //fetching TMDB API for title, release date, rating, and overview for DOM
   fetch(
     `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKeyTmdb}&language=en-US&include_adult=false&with_genres=${genreSelect}`
   )
     .then((response) => response.json())
     .then(function (data) {
-      console.log(data);
+      //console.log(data);
 
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
@@ -78,32 +86,49 @@ window.onclick = function (event) {
       movieRating.text(data.results[0].vote_average / 2);
       movieOverview.text(data.results[0].overview);
 
-      var youtubeSearch = data.results[0].title;
-      
+      //Setting local storage with an array from the TMDB fetch call
+      savedMovie = data.results[0].title;
+      var movieHistArr = JSON.parse(localStorage.getItem("savedMovie"));
+      if (!movieHistArr) {
+        movieHistArr = [];
+      }
+      if (!movieHistArr.includes(savedMovie)) {
+        movieHistArr.push(savedMovie);
+      }
+      localStorage.setItem("savedMovie", JSON.stringify(movieHistArr));
+      console.log(movieHistArr);
 
-      function assignStars(){
+      // _______________________________________________________________________________
+      // _______________________________________________________________________________
+
+      //Setting a visible rating through a five star rating system
+      function assignStars() {
         if ((data.results[0].vote_average / 2) < 1) {
           zeroStarEl.style.display = "block";
-        } 
-        else if ((data.results[0].vote_average / 2) >= 1 && (data.results[0].vote_average / 2)< 2) {
+        }
+        else if ((data.results[0].vote_average / 2) >= 1 && (data.results[0].vote_average / 2) < 2) {
           oneStarEl.style.display = "block";
-        } 
-        else if ((data.results[0].vote_average / 2) >= 2 && (data.results[0].vote_average / 2)< 3) {
+        }
+        else if ((data.results[0].vote_average / 2) >= 2 && (data.results[0].vote_average / 2) < 3) {
           twoStarEl.style.display = "block";
-      }
-        else if ((data.results[0].vote_average / 2) >= 3 && (data.results[0].vote_average / 2)< 4) {
+        }
+        else if ((data.results[0].vote_average / 2) >= 3 && (data.results[0].vote_average / 2) < 4) {
           threeStarEl.style.display = "block";
         }
-      
-        else if ((data.results[0].vote_average / 2) >= 4 && (data.results[0].vote_average / 2)< 5) {
-          fourStarEl.style.display = "block";
-      }else {
-        fiveStarEl.style.display = "block";
-      }
-    }
-assignStars()
 
-      //youtube stuff
+        else if ((data.results[0].vote_average / 2) >= 4 && (data.results[0].vote_average / 2) < 5) {
+          fourStarEl.style.display = "block";
+        } else {
+          fiveStarEl.style.display = "block";
+        }
+      }
+      assignStars()
+      // _______________________________________________________________________________
+      // _______________________________________________________________________________
+
+      //YouTube API call for Trailer access, pulling title from TMDB fecth
+      var youtubeSearch = data.results[0].title;
+      
       fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
       )
@@ -120,7 +145,7 @@ assignStars()
 // _______________________________________________________________________________
 // _______________________________________________________________________________
 
-//IFrame YouTube video player
+//IFrame YouTube video player pulled from YouTube iFrame API documentation
 
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement("script");
@@ -132,7 +157,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 
-function onYouTubeIframeAPIReady() {}
+function onYouTubeIframeAPIReady() { }
 function getGlobalID() {
   var player;
   player = new YT.Player("player", {
