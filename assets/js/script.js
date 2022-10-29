@@ -127,3 +127,21 @@ function onPlayerStateChange(event) {
 function stopVideo() {
   player.stopVideo();
 }
+
+// My List modal
+
+var modal = document.getElementById("my-list");
+var myListBtn = document.getElementById("my-list-btn");
+var returnToResults = document.getElementById("return-to-results");
+
+var openModal = function () {
+  modal.classList.remove("hidden");
+};
+
+myListBtn.addEventListener("click", openModal);
+
+var closeModal = function () {
+  modal.classList.add("hidden");
+}
+
+returnToResults.addEventListener("click", closeModal)

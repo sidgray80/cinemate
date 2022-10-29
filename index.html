@@ -11,16 +11,16 @@
   <title>CineMate</title>
 </head>
 
-<body>
+<body class="bg-slate-800">
   <header>
-    <nav class="grid md:grid-cols-3 bg-red-700 p-6 mb-5 shadow-xl">
-        <h1 class="text-white text-5xl md:text-4xl text-center font-semibold">CineMate</h1>
+    <nav class="grid md:grid-cols-3 bg-slate-600 p-6 mb-5 shadow-xl">
+        <h1 class="text-red-500 text-5xl md:text-4xl text-center font-semibold">CineMate</h1>
 
         <div class="relative inline-block text-left mt-3 md:mt-0">
           <!--dont touch this dropdown section without talking to me. - Kyle -->
           <div class="dropdown">
             <button onclick="handleDropdown()"
-              class="dropbtn inline-flex w-full justify-center rounded-md border w-full justify-center border-gray-300 bg-white px-4 py-2 text-reg text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+              class="dropbtn inline-flex w-full justify-center rounded-md w-full justify-center bg-slate-800 px-4 py-2 text-reg text-slate-400 shadow-sm hover:bg-slate-700"
               id="menu-button" aria-expanded="true" aria-haspopup="true">
               Select a Genre &#9660
               <!-- I have deleted this chevron icon thing. It was causing a lot of problems. I added one using a shortcut. -->
@@ -37,49 +37,81 @@
                           To: "transform opacity-0 scale-95"
                       -->
             <div id="myDropdown"
-              class="dropdown-content absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="dropdown-content absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-slate-800 shadow-lg"
               role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-              <a href="#" class="genre-type0 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100 hover:rounded-md"
+              <a href="#" class="genre-type0 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700 hover:rounded-t-md"
                 role="menuitem" tabindex="-1" id="28">Action</a>
-              <a href="#" class="genre-type1 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type1 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="12">Adventure</a>
-              <a href="#" class="genre-type2 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type2 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="35">Comedy</a>
-              <a href="#" class="genre-type3 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type3 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="18">Drama</a>
-              <a href="#" class="genre-type4 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type4 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="27">Horror</a>
-              <a href="#" class="genre-type5 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type5 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="10749">Romance</a>
-              <a href="#" class="genre-type6 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type6 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="878">Science Fiction</a>
-              <a href="#" class="genre-type7 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type7 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="1">Fantasy</a>
-              <a href="#" class="genre-type8 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100" role="menuitem" tabindex="-1"
+              <a href="#" class="genre-type8 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
                 id="36">Historical</a>
-              <a href="#" class="genre-type9 text-gray-700 block px-4 py-2 text-reg hover:bg-slate-100 hover:rounded-md"
+              <a href="#" class="genre-type9 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700 hover:rounded-b-md"
                 role="menuitem" tabindex="-1" id="80">Crime</a>
             </div>
           </div>
         </div>
+        
+        <button class="block mt-3  md:mt-0 bg-slate-800 text-reg text-slate-400 p-2 rounded hover:bg-slate-700" id="my-list-btn">My List</button>
+        
+      </nav>
+    </header>
 
-        <button class="block mt-3  md:mt-0 bg-white text-reg text-gray-700 p-2 rounded hover:bg-slate-100" id="my-list">My List</button>
-    </nav>
-  </header>
+    <div class="container p-5 md-flex" id="container">
 
-  <div class="container p-5 md-flex" id="container">
+<!-- The Modal -->
+<div id="my-list" data-modal-show="true" aria-hidden="true" class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 align-middle items-center">
+  <div class="relative w-full max-w-2xl px-4 h-full md:h-auto shadow-lg">
+      <!-- Modal content -->
+      <div class="bg-slate-700 rounded-lg shadow-lg relative">
+          <!-- Modal header -->
+          <div class="flex items-start justify-center p-2 rounded-t">
+              <h3 class="text-red-500 text-3xl">
+                  My List
+              </h3>
+
+          </div>
+          <!-- Modal body -->
+          <div class="p-6 space-y-6">
+            <p class="text-slate-400 border-b border-slate-500 p-2">
+              Movie 1   
+              </p>
+              <p class="text-slate-400 border-b border-slate-500 p-2">
+              Movie 2   
+              </p>
+
+          </div>
+          <!-- Modal footer -->
+          <div class="flex space-x-2 items-center p-6 rounded-b justify-center">
+              <button data-modal-toggle="default-modal" type="button" id="return-to-results" class="text-slate-400 bg-slate-800 hover:bg-slate-600 rounded-lg text-reg px-5 py-2.5">Return to Results</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 
 
     <div class="grid md:grid-cols-2 gap-3">
       
       <div id="player" class="player aspect-video bg-red-700 col-span-1 text-white"></div>
 
-      <div class="movieReview bg-red-700 col-span-1 text-white" id="movieReview">
-        <h2 id="movieTitle" class="text-2xl text-center"></h2>
-        <p class = "text-center" id="releaseDate"></p>
-        <p class = "text-center" id="movieRating"></p>
-        <p class = "text-left" id="movieOverview"></p>
+      <div class="movieReview col-span-1" id="movieReview">
+        <h2 id="movieTitle" class="text-3xl font-bold text-red-500 text-center"></h2>
+        <p class = "text-center text-lg font-bold text-slate-400" id="releaseDate"></p>
+        <p class = "text-center text-slate-400" id="movieRating"></p>
+        <p class = "text-left text-reg text-slate-400" id="movieOverview"></p>
       </div>
 
     </div>
@@ -88,7 +120,7 @@
 
 
   
-  <footer class="justify-between h-min flex text-white bg-red-700 text-xs fixed inset-x-0 bottom-0">
+  <footer class="justify-between h-min flex text-slate-400 bg-slate-700 text-xs fixed inset-x-0 bottom-0">
     <div class="p-4">
       Cinemate designed and built by: Kyle Albright, Alex Berger, Sid Gray, Nataly Rodriguez, Skipper Thurman, and
       Christian Walter.
