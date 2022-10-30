@@ -86,7 +86,10 @@ window.onclick = function (event) {
       movieRating.text(data.results[0].vote_average / 2);
       movieOverview.text(data.results[0].overview);
 
-      //Setting local storage with an array from the TMDB fetch call
+      // saves selescted data to local storage
+
+     $("#saveButton").on("click", function () {
+
       savedMovie = data.results[0].title;
       var movieHistArr = JSON.parse(localStorage.getItem("savedMovie"));
       if (!movieHistArr) {
@@ -97,9 +100,25 @@ window.onclick = function (event) {
       }
       localStorage.setItem("savedMovie", JSON.stringify(movieHistArr));
       console.log(movieHistArr);
-
+      
+      for (var i = 0; i < movieHistArr.length; i++) {
+        var storedMovieEl = $('<button class="btn btn-secondary btn-lg btn-rounded m-3 ">');
+        var storedMovie = storedMovieEl
+          .text(movieHistArr[i])
+          .val(movieHistArr[i]);
+        storedMovie.click(function () {
+          console.log($(this).val());
+          handleSubmit($(this).val());
+        });
+        $("#myList").append(storedMovie);
+      }
+    
+    })
+  
       // _______________________________________________________________________________
-      // _______________________________________________________________________________
+      // // $(document).ready(function () {
+      //   $("#saveButton").on("click", function () {
+      //     localStorage.setItem("savedMovie", data.results[0].title);_______________________________________________________________________________
 
       //Setting a visible rating through a five star rating system
       function assignStars() {
@@ -159,7 +178,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function onYouTubeIframeAPIReady() { }
 function getGlobalID() {
-  var player;
+  // var player;
   player = new YT.Player("player", {
     height: "300",
     width: "560",
@@ -185,7 +204,7 @@ function onPlayerReady(event) {
 var done = false;
 function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && !done) {
-    setTimeout(stopVideo, 6000);
+    
     done = true;
   }
 }
