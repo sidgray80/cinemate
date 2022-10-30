@@ -74,22 +74,30 @@ window.onclick = function (event) {
   )
     .then((response) => response.json())
     .then(function (data) {
-      //console.log(data);
+      // console.log(data);
 
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
-      var movieRating = $("#movieRating");
       var movieOverview = $("#movieOverview");
+    
 
+      var posterBaseUrl = "https://image.tmdb.org/t/p/original/"
+      var posterSpecificUrl = (data.results[0].poster_path)
+      
+      var img = document.createElement("img");
+      img.src= posterBaseUrl+posterSpecificUrl;
+      var src= document.getElementById("moviePoster");
+      src.appendChild(img); 
+
+        // function posterUrl()
+        // posterBaseUrl+posterSpecificUrl
+      // moviePoster.src(posterBaseUrl+posterSpecificUrl).attr("src");
       movieTitle.text(data.results[0].title);
       releaseDate.text(data.results[0].release_date);
       movieRating.text(data.results[0].vote_average / 2);
       movieOverview.text(data.results[0].overview);
 
-      // saves selescted data to local storage
-
-     $("#saveButton").on("click", function () {
-
+      //Setting local storage with an array from the TMDB fetch call
       savedMovie = data.results[0].title;
       var movieHistArr = JSON.parse(localStorage.getItem("savedMovie"));
       if (!movieHistArr) {
@@ -100,25 +108,9 @@ window.onclick = function (event) {
       }
       localStorage.setItem("savedMovie", JSON.stringify(movieHistArr));
       console.log(movieHistArr);
-      
-      for (var i = 0; i < movieHistArr.length; i++) {
-        var storedMovieEl = $('<button class="btn btn-secondary btn-lg btn-rounded m-3 ">');
-        var storedMovie = storedMovieEl
-          .text(movieHistArr[i])
-          .val(movieHistArr[i]);
-        storedMovie.click(function () {
-          console.log($(this).val());
-          handleSubmit($(this).val());
-        });
-        $("#myList").append(storedMovie);
-      }
-    
-    })
-  
+
       // _______________________________________________________________________________
-      // // $(document).ready(function () {
-      //   $("#saveButton").on("click", function () {
-      //     localStorage.setItem("savedMovie", data.results[0].title);_______________________________________________________________________________
+      // _______________________________________________________________________________
 
       //Setting a visible rating through a five star rating system
       function assignStars() {
@@ -204,7 +196,7 @@ function onPlayerReady(event) {
 var done = false;
 function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.PLAYING && !done) {
-    
+    setTimeout(stopVideo, 6000);
     done = true;
   }
 }
