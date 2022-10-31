@@ -192,8 +192,8 @@ function onYouTubeIframeAPIReady() {}
 function getGlobalID() {
   // var player;
   player = new YT.Player("player", {
-    height: "300",
-    width: "460",
+    height: "100%",
+    width: "100%",
     videoId: globalVideoId,
     playerVars: {
       playsinline: 1,
@@ -237,3 +237,11 @@ var closeModal = function () {
 };
 
 returnToResults.addEventListener("click", closeModal);
+
+// Next/Previous Arrows
+
+var prevMobile = document.getElementById("prev-mobile");
+prevMobile.classList.add("hidden");
+if (screen.width < 640) {
+  prevMobile.classList.remove("hidden");
+}
