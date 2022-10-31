@@ -10,7 +10,9 @@ var twoStarEl = document.getElementById("twoStar");
 var threeStarEl = document.getElementById("threeStar");
 var fourStarEl = document.getElementById("fourStar");
 var fiveStarEl = document.getElementById("fiveStar");
-var starEl = document.getElementsByClassName("star")
+var starEl = document.getElementsByClassName("star");
+var nextEl = $("#next")[0]
+var prevEl = $("#prev")[0]
 
 zeroStarEl.style.display = "none";
 oneStarEl.style.display = "none";
@@ -18,6 +20,8 @@ twoStarEl.style.display = "none";
 threeStarEl.style.display = "none";
 fourStarEl.style.display = "none";
 fiveStarEl.style.display = "none";
+nextEl.style.visibility = "hidden";
+prevEl.style.visibility = "hidden";
 
 // _______________________________________________________________________________
 // _______________________________________________________________________________
@@ -65,7 +69,6 @@ window.onclick = function (event) {
     return;
   }
 
-  
   // _______________________________________________________________________________
   // _______________________________________________________________________________
 
@@ -75,51 +78,107 @@ window.onclick = function (event) {
   )
     .then((response) => response.json())
     .then(function (data) {
-      // console.log(data);
+      console.log(data);
 
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
       var movieOverview = $("#movieOverview");
+      var nextEl = $("#next")[0]
+      var prevEl = $("#prev")[0]
+console.log(nextEl)
 
-      var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
-      var posterSpecificUrl = data.results[0].poster_path;
+     
 
-      var img = document.createElement("img");
-      img.src = posterBaseUrl + posterSpecificUrl;
-      var src = document.getElementById("moviePoster");
-      src.replaceChild(img, src.childNodes[0]);
+      var ind = 0;
+      function writeContent() {
+        movieTitle.text(data.results[ind].title);
+        releaseDate.text(data.results[ind].release_date);
+        movieOverview.text(data.results[ind].overview);
+
+        var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
+        var posterSpecificUrl = data.results[ind].poster_path;
+  
+        var img = document.createElement("img");
+        img.src = posterBaseUrl + posterSpecificUrl;
+        var src = document.getElementById("moviePoster");
+        src.replaceChild(img, src.childNodes[0]);
+
+        if(ind === 0){
+          nextEl.style.visibility = "visible";
+          prevEl.style.visibility = "hidden";;
+        }
+        else if(ind===9){
+          nextEl.style.visibility = "hidden";
+          prevEl.style.visibility = "visible";
+        } else {
+          nextEl.style.visibility = "visible";
+          prevEl.style.visibility = "visible";
+
+        }
+      }
+      writeContent();
+
       
 
-      movieTitle.text(data.results[0].title);
-      releaseDate.text(data.results[0].release_date);
-      movieOverview.text(data.results[0].overview);
+nextEl.addEventListener("click", function(){
+  paginate("next")
+})
+prevEl.addEventListener("click", function(){
+  paginate("prev")
+})
 
+
+
+
+
+      function paginate(dir){
+        if (dir === "next"){
+          ind++ 
+        } else if(dir === "prev"){
+          ind--
+        }
+        writeContent()
+        
+        console.log(ind)
+        }
+
+      
       //Setting local storage with an array from the TMDB fetch call
 
       $("#saveButton").on("click", function () {
-        savedMovie = data.results[0].title;
-        var movieHistArr = JSON.parse(localStorage.getItem("savedMovie"));
+        savedMovieObj = {
+          Title: data.results[ind].title,
+          Release: data.results[ind].release_date,
+          Overview: data.results[ind].overview,
+          Stars: data.results[ind].vote_average / 2,
+          Poster: data.results[ind].poster_path,
+          VideoID: globalVideoId,
+        };
+
+        var movieHistArr = JSON.parse(localStorage.getItem("savedMovieObj"));
         if (!movieHistArr) {
           movieHistArr = [];
         }
-        if (!movieHistArr.includes(savedMovie)) {
-          movieHistArr.push(savedMovie);
+        if (!movieHistArr.includes(savedMovieObj)) {
+          movieHistArr.push(savedMovieObj);
         }
-        localStorage.setItem("savedMovie", JSON.stringify(movieHistArr));
+
+        localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
         console.log(movieHistArr);
 
         // _______________________________________________________________________________
+        // $("myList").empty();
 
         for (var i = 0; i < movieHistArr.length; i++) {
           var storedMovieEl = $(
             '<button class= "bg-slate-800 hover:bg-red-500 w-full px-4 py-2 text-reg text-slate-400 rounded">'
           );
           var storedMovie = storedMovieEl
-            .text(movieHistArr[i])
+            .text(data.results[0].title)
             .val(movieHistArr[i]);
           storedMovie.click(function () {
             console.log($(this).val());
-            handleSubmit($(this).val());
+            // handleSubmit($(this).val());
           });
           $("#myList").append(storedMovie);
         }
@@ -134,7 +193,7 @@ window.onclick = function (event) {
           zeroStarEl.style.display = "block";
           oneStarEl.style.display = "none";
           twoStarEl.style.display = "none";
-          threeStarEl.style.display ="none";
+          threeStarEl.style.display = "none";
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
@@ -144,7 +203,7 @@ window.onclick = function (event) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "block";
           twoStarEl.style.display = "none";
-          threeStarEl.style.display ="none";
+          threeStarEl.style.display = "none";
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
@@ -154,7 +213,7 @@ window.onclick = function (event) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
           twoStarEl.style.display = "block";
-          threeStarEl.style.display ="none";
+          threeStarEl.style.display = "none";
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
@@ -164,7 +223,7 @@ window.onclick = function (event) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
           twoStarEl.style.display = "none";
-          threeStarEl.style.display ="block";
+          threeStarEl.style.display = "block";
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
@@ -174,14 +233,14 @@ window.onclick = function (event) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
           twoStarEl.style.display = "none";
-          threeStarEl.style.display ="none";
+          threeStarEl.style.display = "none";
           fourStarEl.style.display = "block";
           fiveStarEl.style.display = "none";
         } else {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
           twoStarEl.style.display = "none";
-          threeStarEl.style.display ="none";
+          threeStarEl.style.display = "none";
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "block";
         }
@@ -204,7 +263,7 @@ window.onclick = function (event) {
           getGlobalID();
           // console.log(localVideoId)
         });
-    });
+    })
 };
 // _______________________________________________________________________________
 // _______________________________________________________________________________
@@ -223,41 +282,40 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function onYouTubeIframeAPIReady() {}
 function getGlobalID() {
-  // var player;
+  var player;
   player = new YT.Player("player", {
     height: "300",
     width: "460",
-    videoId: globalVideoId +"?autoplay=1&mute=1&enablejsapi=0",
+    videoId: globalVideoId + "?autoplay=1&mute=1&enablejsapi=0",
     playerVars: {
       playsinline: 1,
-    }, 
+    },
     events: {
       onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
-    }
+    },
   });
 
-console.log(globalVideoId)
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-  event.target.playVideo();
-}
+  console.log(globalVideoId);
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
 
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-var done = false;
-function onPlayerStateChange(event) {
-  // if (event.data == YT.PlayerState.PLAYING && !done) {
-  //   done = true;
-  // }
-  if (event.data == YT.PlayerState.ENDED && done) {
-    console.log("load another video");
-    player.loadVideoById([globalVideoId],ctr);
-    ctr++;          
- }
-
-}
+  // 5. The API calls this function when the player's state changes.
+  //    The function indicates that when playing a video (state=1),
+  //    the player should play for six seconds and then stop.
+  var done = false;
+  function onPlayerStateChange(event) {
+    // if (event.data == YT.PlayerState.PLAYING && !done) {
+    //   done = true;
+    // }
+    if (event.data == YT.PlayerState.ENDED && done) {
+      console.log("load another video");
+      player.loadVideoById([globalVideoId], ctr);
+      ctr++;
+    }
+  }
 }
 
 // My List modal
