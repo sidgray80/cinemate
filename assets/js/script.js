@@ -237,8 +237,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 function onYouTubeIframeAPIReady() {
 
   player = new YT.Player("player", {
-    height: "300",
-    width: "460",
+    height: "100%",
+    width: "100%",
     videoId: globalVideoId,
     playerVars: {
       playsinline: 1,
@@ -320,7 +320,7 @@ $("#saveButton").on("click", function () {
    $("#myList").empty()
   for (var i = 0; i < movieHistArr.length; i++) {
     var storedMovieEl = $(
-      '<button class= "bg-slate-800 hover:bg-red-500 w-full px-4 py-2 text-reg text-slate-400 rounded">'
+      '<button class= "bg-slate-800 hover:bg-slate-600 w-full px-4 py-2 text-reg text-slate-400 rounded">'
     );
     var storedMovie = storedMovieEl
       .text(movieHistArr[i].Title)
