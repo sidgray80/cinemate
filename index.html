@@ -12,25 +12,21 @@
 </head>
 
 <body class="bg-slate-800">
-
   <header>
-
     <nav class="grid md:grid-cols-10 gap-3 bg-slate-600 p-6 mb-5 shadow-xl">
+        <h1 class="col-span-7 text-red-500 text-5xl md:text-4xl text-center md:text-left font-semibold">CineMate</h1>
 
-      <h1 class="col-span-7 text-red-500 text-5xl md:text-4xl text-center md:text-left font-semibold">CineMate</h1>
+        <div class="col-span-2 relative inline-block text-left mt-3 md:mt-0">
+          <!--dont touch this dropdown section without talking to me. - Kyle -->
+          <div class="dropdown">
+            <button onclick="handleDropdown()"
+              class="dropbtn inline-flex w-full justify-center rounded-md w-full justify-center bg-slate-800 px-4 py-2 text-reg text-slate-400 shadow-sm hover:bg-slate-700"
+              id="menu-button" aria-expanded="true" aria-haspopup="true">
+              Select a Genre &#9660
+              <!-- I have deleted this chevron icon thing. It was causing a lot of problems. I added one using a shortcut. -->
+            </button>
 
-      <div class="col-span-2 relative inline-block text-left mt-3 md:mt-0">
-
-        <!--dont touch this dropdown section without talking to me. - Kyle -->
-        <div class="dropdown">
-          <button onclick="handleDropdown()"
-            class="dropbtn inline-flex w-full justify-center rounded-md w-full justify-center bg-slate-800 px-4 py-2 text-reg text-slate-400 shadow-sm hover:bg-slate-700"
-            id="menu-button" aria-expanded="true" aria-haspopup="true">
-            Select a Genre &#9660
-            <!-- I have deleted this chevron icon thing. It was causing a lot of problems. I added one using a shortcut. -->
-          </button>
-
-          <!--
+            <!--
                         Dropdown menu, show/hide based on menu state.
                     
                         Entering: "transition ease-out duration-100"
@@ -40,55 +36,51 @@
                           From: "transform opacity-100 scale-100"
                           To: "transform opacity-0 scale-95"
                       -->
-          <div id="myDropdown"
-            class="dropdown-content absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-slate-800 shadow-lg"
-            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-            <a href="#"
-              class="genre-type0 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700 hover:rounded-t-md"
-              role="menuitem" tabindex="-1" id="28">Action</a>
-            <a href="#" class="genre-type1 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="12">Adventure</a>
-            <a href="#" class="genre-type2 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="35">Comedy</a>
-            <a href="#" class="genre-type3 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="18">Drama</a>
-            <a href="#" class="genre-type4 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="27">Horror</a>
-            <a href="#" class="genre-type5 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="10749">Romance</a>
-            <a href="#" class="genre-type6 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="878">Science Fiction</a>
-            <a href="#" class="genre-type7 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="14">Fantasy</a>
-            <a href="#" class="genre-type8 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem"
-              tabindex="-1" id="36">Historical</a>
-            <a href="#"
-              class="genre-type9 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700 hover:rounded-b-md"
-              role="menuitem" tabindex="-1" id="80">Crime</a>
+            <div id="myDropdown"
+              class="dropdown-content absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-slate-800 shadow-lg"
+              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+              <a href="#" class="genre-type0 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700 hover:rounded-t-md"
+                role="menuitem" tabindex="-1" id="28">Action</a>
+              <a href="#" class="genre-type1 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="12">Adventure</a>
+              <a href="#" class="genre-type2 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="35">Comedy</a>
+              <a href="#" class="genre-type3 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="18">Drama</a>
+              <a href="#" class="genre-type4 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="27">Horror</a>
+              <a href="#" class="genre-type5 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="10749">Romance</a>
+              <a href="#" class="genre-type6 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="878">Science Fiction</a>
+              <a href="#" class="genre-type7 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="1">Fantasy</a>
+              <a href="#" class="genre-type8 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700" role="menuitem" tabindex="-1"
+                id="36">Historical</a>
+              <a href="#" class="genre-type9 text-slate-400 block px-4 py-2 text-reg hover:bg-slate-700 hover:rounded-b-md"
+                role="menuitem" tabindex="-1" id="80">Crime</a>
+            </div>
           </div>
         </div>
-      </div>
+        
+        <button class="col-span-1 block mt-3  md:mt-0 bg-slate-800 text-reg text-slate-400 p-2 rounded hover:bg-slate-700" id="my-list-btn">My List</button>
+        
+      </nav>
+    </header>
 
-      <button class="col-span-1 block mt-3  md:mt-0 bg-slate-800 text-reg text-slate-400 p-2 rounded hover:bg-slate-700"
-        id="my-list-btn">My List</button>
+    <div class="container p-5 md-flex" id="container">
 
-    </nav>
-  </header>
-
-  <div class="container p-5 md-flex" id="container">
-
-    <!-- The Modal -->
-    <div id="my-list" data-modal-show="true" aria-hidden="true"
-      class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 align-middle items-center">
-      <div class="relative w-full max-w-2xl px-4 h-full md:h-auto shadow-lg">
-        <!-- Modal content -->
-        <div class="bg-slate-700 rounded-lg shadow-lg relative">
+<!-- The Modal -->
+<div id="my-list" data-modal-show="true" aria-hidden="true" class="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 align-middle items-center">
+  <div class="relative w-full max-w-2xl px-4 h-full md:h-auto shadow-lg">
+      <!-- Modal content -->
+      <div class="bg-slate-700 rounded-lg shadow-lg relative">
           <!-- Modal header -->
           <div class="flex items-start justify-center p-2 rounded-t">
-            <h3 class="text-red-500 text-3xl">
-              My List
-            </h3>
+              <h3 class="text-red-500 text-3xl">
+                  My List
+              </h3>
 
           </div>
           <!-- Modal body -->
@@ -103,38 +95,43 @@
           </div>
           <!-- Modal footer -->
           <div class="flex space-x-2 items-center p-6 rounded-b justify-center">
-            <button data-modal-toggle="default-modal" type="button" id="return-to-results"
-              class="text-slate-400 bg-slate-800 hover:bg-slate-600 rounded-lg text-reg px-5 py-2.5">Return to
-              Results</button>
+              <button data-modal-toggle="default-modal" type="button" id="return-to-results" class="text-slate-400 bg-slate-800 hover:bg-slate-600 rounded-lg text-reg px-5 py-2.5">Return to Results</button>
           </div>
-        </div>
       </div>
-    </div>
+  </div>
+</div>
+
+
 
     <div class="grid md:grid-cols-12 gap-3">
+      
+      <div id="prev" class="col-span-1"><i class="fa-solid fa-circle-arrow-left text-4xl text-red-500 hover:text-red-600"></i></div>
 
-      <div id="prev" class="col-span-1"><i
-          class="fa-solid fa-circle-arrow-left text-4xl text-red-500 hover:text-red-600"></i></div>
-
-      <div id="moviePoster" class="col-span-3"><img></div>
+      <div id="moviePoster" class="col-span-3"><img ></div>
 
       <div id="player" class="col-span-4 player aspect-video bg-red-700 col-span-1 text-white"></div>
 
-      <div class="movieReview col-span-3">
+      <div class="movieReview col-span-3" id="movieReview">
         <h2 id="movieTitle" class="text-3xl font-bold text-red-500 text-center"></h2>
-        <p class="text-center text-lg font-bold text-slate-400" id="releaseDate"></p>
-        <p class="text-center text-slate-400" id="movieOverview"></p>
-        <div id="zeroStar" class="star text-center text-3xl">&#9734 &#9734 &#9734 &#9734 &#9734</div>
-        <div id="oneStar" class="star text-center text-3xl">&#9733 &#9734 &#9734 &#9734 &#9734</div>
-        <div id="twoStar" class="star text-center text-3xl">&#9733 &#9733 &#9734 &#9734 &#9734</div>
-        <div id="threeStar" class="star text-center text-3xl">&#9733 &#9733 &#9733 &#9734 &#9734 </div>
-        <div id="fourStar" class="star text-center text-3xl">&#9733 &#9733 &#9733 &#9733 &#9734</div>
+        <p class = "text-center text-lg font-bold text-slate-400" id="releaseDate"></p>
+        <p class = "text-center text-slate-400" id="movieRating"></p>
+        <div id = "zeroStar" class = "star text-center text-3xl">&#9734 &#9734 &#9734 &#9734 &#9734</div>
+        <div id = "oneStar" class = "star text-center text-3xl">&#9733 &#9734 &#9734 &#9734 &#9734</div>
+        <div id = "twoStar" class = "star text-center text-3xl">&#9733 &#9733 &#9734 &#9734 &#9734</div>
+        <div id = "threeStar" class = "star text-center text-3xl">&#9733 &#9733 &#9733 &#9734 &#9734 </div>
+        <div id = "fourStar" class = "star text-center text-3xl">&#9733 &#9733 &#9733 &#9733 &#9734</div>
 
-        <div id="fiveStar" class="star text-center text-3xl">&#9733 &#9733 &#9733 &#9733 &#9733 </div>
+        <div id = "fiveStar" class = "star text-center text-3xl">&#9733 &#9733 &#9733 &#9733 &#9733 </div>
 
-        <button id="saveButton" class="saveButton">Save</button>
+        
+
+
+
+        <p class = "text-left text-reg text-slate-400" id="movieOverview"></p>
+
+        <button id = "saveButton" class = "saveButton">Save</button>
       </div>
-
+      
       <div id="next" class="col-span-1">
         <i class="fa-solid fa-circle-arrow-right text-4xl text-red-500 hover:text-red-600"></i>
       </div>
@@ -142,19 +139,23 @@
     </div>
   </div>
 
+  
+   
+  </div>
+
+ 
+
   <footer class="grid md:grid-cols-3 gap-3 bg-slate-700 p-2 text-sm text-slate-400 bottom-0 fixed">
 
-    <div>Cinemate designed and built by: Kyle Albright, Alex Berger, Sid Gray, Nataly Rodriguez, Skipper Thurman, and
-      Christian Walter.</div>
-
-    <div>Film-related metadata used in Cinemate is supplied by <a href="https://www.themoviedb.org/"
-        class="text-slate-500">The Movie Database &nbsp</a>(TMDB).</div>
-
-    <div><a href="https://www.themoviedb.org/"><img src="./assets/images/tmdblogo.svg"
-          style="width:100px;height:min-content;"></a></div>
+    <div>Cinemate designed and built by: Kyle Albright, Alex Berger, Sid Gray, Nataly Rodriguez, Skipper Thurman, and Christian Walter.</div>
+    
+    <div>Film-related metadata used in Cinemate is supplied by <a href="https://www.themoviedb.org/" class="text-slate-500">The Movie Database &nbsp</a>(TMDB).</div>
+    
+    <div><a href="https://www.themoviedb.org/"><img src="./assets/images/tmdblogo.svg" style="width:100px;height:min-content;"></a></div>
 
   </footer>
 
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -162,5 +163,4 @@
   <script src="./assets/js/script.js"></script>
 
 </body>
-
 </html>

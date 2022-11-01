@@ -1,9 +1,12 @@
 //Global Variables
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
-var apiKeyYt = "AIzaSyAKuwURWanoPzgJJe-WYMuRwwtyhrh3yY8";
-var currentDay = moment().format("DD-MM-YYYY");
+var apiKeyYt = "AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k";
 var globalVideoId;
+var savedMovieObj;
+var tmdbMovieData;
+var currentMovieIndex;
 var player;
+
 var zeroStarEl = document.getElementById("zeroStar");
 var oneStarEl = document.getElementById("oneStar");
 var twoStarEl = document.getElementById("twoStar");
@@ -11,8 +14,8 @@ var threeStarEl = document.getElementById("threeStar");
 var fourStarEl = document.getElementById("fourStar");
 var fiveStarEl = document.getElementById("fiveStar");
 var starEl = document.getElementsByClassName("star");
-var nextEl = $("#next")[0]
-var prevEl = $("#prev")[0]
+var nextEl = $("#next")[0];
+var prevEl = $("#prev")[0];
 
 zeroStarEl.style.display = "none";
 oneStarEl.style.display = "none";
@@ -31,7 +34,8 @@ function handleDropdown() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
 
-window.onclick = function (event) {
+window.addEventListener("click", function (event) {
+  console.log(event.target);
   if (!event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -42,7 +46,8 @@ window.onclick = function (event) {
       }
     }
   }
-};
+});
+function onYouTubeIframeAPIReady() {}
 window.onclick = function (event) {
   if (event.target.matches(".genre-type0"))
     var genreSelect = $(".genre-type0").attr("id");
@@ -77,109 +82,65 @@ window.onclick = function (event) {
   )
     .then((response) => response.json())
     .then(function (data) {
-      //console.log(data);
-
+      console.log(data);
+      
+      tmdbMovieData = data
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
       var movieOverview = $("#movieOverview");
-      var nextEl = $("#next")[0]
-      var prevEl = $("#prev")[0]
-      //console.log(nextEl)
+      var nextEl = $("#next")[0];
+      var prevEl = $("#prev")[0];
+      console.log(nextEl);
 
-      var ind = 0;
+       currentMovieIndex = 0;
       function writeContent() {
-        movieTitle.text(data.results[ind].title);
-        releaseDate.text(data.results[ind].release_date);
-        movieOverview.text(data.results[ind].overview);
+        movieTitle.text(tmdbMovieData.results[currentMovieIndex].title);
+        releaseDate.text(tmdbMovieData.results[currentMovieIndex].release_date);
+        movieOverview.text(tmdbMovieData.results[currentMovieIndex].overview);
 
         var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
-        var posterSpecificUrl = data.results[ind].poster_path;
+        var posterSpecificUrl = tmdbMovieData.results[currentMovieIndex].poster_path;
 
         var img = document.createElement("img");
         img.src = posterBaseUrl + posterSpecificUrl;
         var src = document.getElementById("moviePoster");
         src.replaceChild(img, src.childNodes[0]);
 
-        if (ind === 0) {
+        if (currentMovieIndex === 0) {
           nextEl.style.visibility = "visible";
-          prevEl.style.visibility = "hidden";;
-        }
-        else if (ind === 9) {
+          prevEl.style.visibility = "hidden";
+        } else if (currentMovieIndex === 9) {
           nextEl.style.visibility = "hidden";
           prevEl.style.visibility = "visible";
         } else {
           nextEl.style.visibility = "visible";
           prevEl.style.visibility = "visible";
-
         }
       }
       writeContent();
 
       nextEl.addEventListener("click", function () {
-        paginate("next")
-      })
+        paginate("next");
+      });
       prevEl.addEventListener("click", function () {
-        paginate("prev")
-      })
+        paginate("prev");
+      });
 
       function paginate(dir) {
         if (dir === "next") {
-          ind++
+          currentMovieIndex++;
         } else if (dir === "prev") {
-          ind--
+          currentMovieIndex--;
         }
-        writeContent()
+        writeContent();
 
-        //console.log(ind)
+        console.log(currentMovieIndex);
       }
 
-      //Setting local storage with an array from the TMDB fetch call
-
-      $("#saveButton").on("click", function () {
-        savedMovieObj = {
-          Title: data.results[ind].title,
-          Release: data.results[ind].release_date,
-          Overview: data.results[ind].overview,
-          Stars: data.results[ind].vote_average / 2,
-          Poster: data.results[ind].poster_path,
-          VideoID: globalVideoId,
-        };
-
-        var movieHistArr = JSON.parse(localStorage.getItem("savedMovieObj"));
-        if (!movieHistArr) {
-          movieHistArr = [];
-        }
-        if (!movieHistArr.includes(savedMovieObj)) {
-          movieHistArr.push(savedMovieObj);
-        }
-
-        localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
-        //console.log(movieHistArr);
-
-        // _______________________________________________________________________________
-        // $("myList").empty();
-
-        for (var i = 0; i < movieHistArr.length; i++) {
-          var storedMovieEl = $(
-            '<button class= "bg-slate-800 hover:bg-red-500 w-full px-4 py-2 text-reg text-slate-400 rounded">'
-          );
-          var storedMovie = storedMovieEl
-            .text(data.results[0].title)
-            .val(movieHistArr[i]);
-          storedMovie.click(function () {
-            //console.log($(this).val());
-            // handleSubmit($(this).val());
-          });
-          $("#myList").append(storedMovie);
-        }
-      });
-
-      // _______________________________________________________________________________
-      // _______________________________________________________________________________
-
+      
       //Setting a visible rating through a five star rating system
       function assignStars() {
-        if (data.results[0].vote_average / 2 < 1) {
+        if (tmdbMovieData.results[0].vote_average / 2 < 1) {
           zeroStarEl.style.display = "block";
           oneStarEl.style.display = "none";
           twoStarEl.style.display = "none";
@@ -187,8 +148,8 @@ window.onclick = function (event) {
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
-          data.results[0].vote_average / 2 >= 1 &&
-          data.results[0].vote_average / 2 < 2
+          tmdbMovieData.results[0].vote_average / 2 >= 1 &&
+          tmdbMovieData.results[0].vote_average / 2 < 2
         ) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "block";
@@ -197,8 +158,8 @@ window.onclick = function (event) {
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
-          data.results[0].vote_average / 2 >= 2 &&
-          data.results[0].vote_average / 2 < 3
+          tmdbMovieData.results[0].vote_average / 2 >= 2 &&
+          tmdbMovieData.results[0].vote_average / 2 < 3
         ) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
@@ -207,8 +168,8 @@ window.onclick = function (event) {
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
-          data.results[0].vote_average / 2 >= 3 &&
-          data.results[0].vote_average / 2 < 4
+          tmdbMovieData.results[0].vote_average / 2 >= 3 &&
+          tmdbMovieData.results[0].vote_average / 2 < 4
         ) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
@@ -217,8 +178,8 @@ window.onclick = function (event) {
           fourStarEl.style.display = "none";
           fiveStarEl.style.display = "none";
         } else if (
-          data.results[0].vote_average / 2 >= 4 &&
-          data.results[0].vote_average / 2 < 5
+          tmdbMovieData.results[0].vote_average / 2 >= 4 &&
+          tmdbMovieData.results[0].vote_average / 2 < 5
         ) {
           zeroStarEl.style.display = "none";
           oneStarEl.style.display = "none";
@@ -240,8 +201,8 @@ window.onclick = function (event) {
       // _______________________________________________________________________________
 
       //YouTube API call for Trailer access, pulling title from TMDB fecth
-      var youtubeSearch = data.results[0].title;
-      //console.log("player", player);
+      var youtubeSearch = tmdbMovieData.results[currentMovieIndex].title;
+
       fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
       )
@@ -251,23 +212,30 @@ window.onclick = function (event) {
 
           globalVideoId = localVideoId;
           player.loadVideoById({ videoId: globalVideoId });
-          getGlobalID();
+          
+          // getGlobalID();
           // console.log(localVideoId)
         });
-    })
+    });
 };
+// end of the window.onclick function
 // _______________________________________________________________________________
 // _______________________________________________________________________________
 
 //IFrame YouTube video player pulled from YouTube iFrame API documentation
 
+// 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement("script");
 
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+
 function onYouTubeIframeAPIReady() {
+
   player = new YT.Player("player", {
     height: "300",
     width: "460",
@@ -281,23 +249,27 @@ function onYouTubeIframeAPIReady() {
     },
   });
 }
-
 function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.ENDED && done) {
-    //console.log("load another video");
-    player.loadVideoById([globalVideoId], ctr);
-    ctr++;
+    console.log("load another video");
+      player.loadVideoById([globalVideoId], ctr);
+      ctr++;
   }
 }
+ 
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
 
-function onPlayerReady(event) {
-  event.target.playVideo();
-}
-
-function getGlobalID() {
-  //console.log(globalVideoId);
+  
   var done = false;
-}
+  
+    
+   
+      
+    
+  
+
 
 // My List modal
 
@@ -316,3 +288,46 @@ var closeModal = function () {
 };
 
 returnToResults.addEventListener("click", closeModal);
+
+$("#saveButton").on("click", function () {
+ 
+  savedMovieObj = {
+    Title: tmdbMovieData.results[currentMovieIndex].title,
+    Release: tmdbMovieData.results[currentMovieIndex].release_date,
+    Overview: tmdbMovieData.results[currentMovieIndex].overview,
+    Stars: tmdbMovieData.results[currentMovieIndex].vote_average / 2,
+    Poster: tmdbMovieData.results[currentMovieIndex].poster_path,
+    VideoID: globalVideoId,
+  };
+
+  var movieHistArr = JSON.parse(localStorage.getItem("savedMovieObj"));
+  if (!movieHistArr) {
+    movieHistArr = [];
+  }
+
+  var hasMovie = movieHistArr.find(function (movie) {
+    return movie.Title === savedMovieObj.Title;
+  });
+
+  if (!hasMovie) {
+    movieHistArr.push(savedMovieObj);
+  }
+
+  localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
+  console.log(movieHistArr);
+
+  
+   $("#myList").empty()
+  for (var i = 0; i < movieHistArr.length; i++) {
+    var storedMovieEl = $(
+      '<button class= "bg-slate-800 hover:bg-red-500 w-full px-4 py-2 text-reg text-slate-400 rounded">'
+    );
+    var storedMovie = storedMovieEl
+      .text(movieHistArr[i].Title)
+  
+    $("#myList").append(storedMovie);
+  }
+});
+
+
+
