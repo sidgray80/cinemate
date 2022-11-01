@@ -1,9 +1,9 @@
 //Global Variables
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
-var apiKeyYt = "AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k";
+var apiKeyYt = "AIzaSyAKuwURWanoPzgJJe-WYMuRwwtyhrh3yY8";
 var currentDay = moment().format("DD-MM-YYYY");
 var globalVideoId;
-
+var player;
 var zeroStarEl = document.getElementById("zeroStar");
 var oneStarEl = document.getElementById("oneStar");
 var twoStarEl = document.getElementById("twoStar");
@@ -43,7 +43,6 @@ window.onclick = function (event) {
     }
   }
 };
-function onYouTubeIframeAPIReady() {}
 window.onclick = function (event) {
   if (event.target.matches(".genre-type0"))
     var genreSelect = $(".genre-type0").attr("id");
@@ -85,9 +84,9 @@ window.onclick = function (event) {
       var movieOverview = $("#movieOverview");
       var nextEl = $("#next")[0]
       var prevEl = $("#prev")[0]
-console.log(nextEl)
+      console.log(nextEl)
 
-     
+
 
       var ind = 0;
       function writeContent() {
@@ -97,17 +96,17 @@ console.log(nextEl)
 
         var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
         var posterSpecificUrl = data.results[ind].poster_path;
-  
+
         var img = document.createElement("img");
         img.src = posterBaseUrl + posterSpecificUrl;
         var src = document.getElementById("moviePoster");
         src.replaceChild(img, src.childNodes[0]);
 
-        if(ind === 0){
+        if (ind === 0) {
           nextEl.style.visibility = "visible";
           prevEl.style.visibility = "hidden";;
         }
-        else if(ind===9){
+        else if (ind === 9) {
           nextEl.style.visibility = "hidden";
           prevEl.style.visibility = "visible";
         } else {
@@ -118,31 +117,31 @@ console.log(nextEl)
       }
       writeContent();
 
-      
-
-nextEl.addEventListener("click", function(){
-  paginate("next")
-})
-prevEl.addEventListener("click", function(){
-  paginate("prev")
-})
 
 
+      nextEl.addEventListener("click", function () {
+        paginate("next")
+      })
+      prevEl.addEventListener("click", function () {
+        paginate("prev")
+      })
 
 
 
-      function paginate(dir){
-        if (dir === "next"){
-          ind++ 
-        } else if(dir === "prev"){
+
+
+      function paginate(dir) {
+        if (dir === "next") {
+          ind++
+        } else if (dir === "prev") {
           ind--
         }
         writeContent()
-        
-        console.log(ind)
-        }
 
-      
+        console.log(ind)
+      }
+
+
       //Setting local storage with an array from the TMDB fetch call
 
       $("#saveButton").on("click", function () {
@@ -251,7 +250,7 @@ prevEl.addEventListener("click", function(){
 
       //YouTube API call for Trailer access, pulling title from TMDB fecth
       var youtubeSearch = data.results[0].title;
-
+      console.log("player", player);
       fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
       )
@@ -260,6 +259,7 @@ prevEl.addEventListener("click", function(){
           localVideoId = data.items[0].id.videoId;
 
           globalVideoId = localVideoId;
+          player.loadVideoById({videoId: globalVideoId});
           getGlobalID();
           // console.log(localVideoId)
         });
@@ -280,13 +280,11 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 
-function onYouTubeIframeAPIReady() {}
-function getGlobalID() {
-  var player;
+function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     height: "300",
     width: "460",
-    videoId: globalVideoId + "?autoplay=1&mute=1&enablejsapi=0",
+    videoId: globalVideoId,
     playerVars: {
       playsinline: 1,
     },
@@ -295,28 +293,32 @@ function getGlobalID() {
       onStateChange: onPlayerStateChange,
     },
   });
+}
 
-  console.log(globalVideoId);
-  // 4. The API will call this function when the video player is ready.
-  function onPlayerReady(event) {
-    event.target.playVideo();
-  }
-
-  // 5. The API calls this function when the player's state changes.
-  //    The function indicates that when playing a video (state=1),
-  //    the player should play for six seconds and then stop.
-  var done = false;
-  function onPlayerStateChange(event) {
-    // if (event.data == YT.PlayerState.PLAYING && !done) {
-    //   done = true;
-    // }
-    if (event.data == YT.PlayerState.ENDED && done) {
-      console.log("load another video");
-      player.loadVideoById([globalVideoId], ctr);
-      ctr++;
-    }
+function onPlayerStateChange(event) {
+  // if (event.data == YT.PlayerState.PLAYING && !done) {
+  //   done = true;
+  // }
+  if (event.data == YT.PlayerState.ENDED && done) {
+    console.log("load another video");
+    player.loadVideoById([globalVideoId], ctr);
+    ctr++;
   }
 }
+
+function onPlayerReady(event) {
+  event.target.playVideo();
+  }
+
+function getGlobalID() {
+  console.log(globalVideoId);
+  // 4. The API will call this function when the video player is ready.
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+  }
 
 // My List modal
 
