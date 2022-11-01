@@ -13,6 +13,7 @@ var twoStarEl = document.getElementById("twoStar");
 var threeStarEl = document.getElementById("threeStar");
 var fourStarEl = document.getElementById("fourStar");
 var fiveStarEl = document.getElementById("fiveStar");
+var saveButtonEl = document.getElementById("saveButton")
 var starEl = document.getElementsByClassName("star");
 var nextEl = $("#next")[0];
 var prevEl = $("#prev")[0];
@@ -23,6 +24,7 @@ twoStarEl.style.display = "none";
 threeStarEl.style.display = "none";
 fourStarEl.style.display = "none";
 fiveStarEl.style.display = "none";
+saveButtonEl.style.visibility = "hidden";
 nextEl.style.visibility = "hidden";
 prevEl.style.visibility = "hidden";
 
@@ -117,6 +119,9 @@ window.onclick = function (event) {
           prevEl.style.visibility = "visible";
         }
       }
+
+      saveButtonEl.style.visibility = "visible";
+
       writeContent();
 
       nextEl.addEventListener("click", function () {
@@ -132,8 +137,9 @@ window.onclick = function (event) {
         } else if (dir === "prev") {
           currentMovieIndex--;
         }
+        
         writeContent();
-
+        
         console.log(currentMovieIndex);
       }
 
