@@ -320,7 +320,7 @@ $("#saveButton").on("click", function () {
       '<button class= "bg-slate-800 hover:bg-red-500 w-full px-4 py-2 text-reg text-slate-400 rounded">'
     );
     var storedMovie = storedMovieEl
-      .text(tmdbMovieData.results[i].title)
+      .text(movieHistArr[i].Title)
       
     // storedMovie.click(function () {
     //   console.log($(this).val());
