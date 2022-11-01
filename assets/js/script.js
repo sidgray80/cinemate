@@ -1,11 +1,12 @@
 //Global Variables
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
-var apiKeyYt = "AIzaSyCNnN9L5rV02WBTOATM8j0uAWUSQtMn90k";
+var apiKeyYt = "AIzaSyAKuwURWanoPzgJJe-WYMuRwwtyhrh3yY8";
 var globalVideoId;
 var savedMovieObj;
 var tmdbMovieData;
 var currentMovieIndex;
 var player;
+var movieData;
 
 var zeroStarEl = document.getElementById("zeroStar");
 var oneStarEl = document.getElementById("oneStar");
@@ -37,7 +38,7 @@ function handleDropdown() {
 }
 
 window.addEventListener("click", function (event) {
-  console.log(event.target);
+  //console.log(event.target);
   if (!event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -49,7 +50,8 @@ window.addEventListener("click", function (event) {
     }
   }
 });
-function onYouTubeIframeAPIReady() {}
+
+//Window on-click function that selects genre
 window.onclick = function (event) {
   if (event.target.matches(".genre-type0"))
     var genreSelect = $(".genre-type0").attr("id");
@@ -78,48 +80,159 @@ window.onclick = function (event) {
   // _______________________________________________________________________________
   // _______________________________________________________________________________
 
+  //DIV creation for poster and buttons
+  function writeContent() {
+    var movieTitle = $("#movieTitle");
+    var releaseDate = $("#releaseDate");
+    var movieOverview = $("#movieOverview");
+    movieData = tmdbMovieData.results
+    movieTitle.text(tmdbMovieData.results[currentMovieIndex].title);
+    releaseDate.text(tmdbMovieData.results[currentMovieIndex].release_date);
+    movieOverview.text(tmdbMovieData.results[currentMovieIndex].overview);
+
+    var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
+    var posterSpecificUrl = tmdbMovieData.results[currentMovieIndex].poster_path;
+
+    var img = document.createElement("img");
+    img.src = posterBaseUrl + posterSpecificUrl;
+    var src = document.getElementById("moviePoster");
+    src.replaceChild(img, src.childNodes[0]);
+
+    if (currentMovieIndex === 0) {
+      nextEl.style.visibility = "visible";
+      prevEl.style.visibility = "hidden";
+    } else if (currentMovieIndex === 9) {
+      nextEl.style.visibility = "hidden";
+      prevEl.style.visibility = "visible";
+    } else {
+      nextEl.style.visibility = "visible";
+      prevEl.style.visibility = "visible";
+    }
+  }
+
+  function paginate(dir) {
+    if (dir === "next") {
+      currentMovieIndex++;
+    } else if (dir === "prev") {
+      currentMovieIndex--;
+    }
+
+    writeContent();
+    getYouTube()
+
+    //console.log(currentMovieIndex);
+  }
+
+  // _______________________________________________________________________________
+  // _______________________________________________________________________________
+
+  //Setting a visible rating through a five star rating system
+  function assignStars() {
+    if (tmdbMovieData.results[0].vote_average / 2 < 1) {
+      zeroStarEl.style.display = "block";
+      oneStarEl.style.display = "none";
+      twoStarEl.style.display = "none";
+      threeStarEl.style.display = "none";
+      fourStarEl.style.display = "none";
+      fiveStarEl.style.display = "none";
+    } else if (
+      tmdbMovieData.results[0].vote_average / 2 >= 1 &&
+      tmdbMovieData.results[0].vote_average / 2 < 2
+    ) {
+      zeroStarEl.style.display = "none";
+      oneStarEl.style.display = "block";
+      twoStarEl.style.display = "none";
+      threeStarEl.style.display = "none";
+      fourStarEl.style.display = "none";
+      fiveStarEl.style.display = "none";
+    } else if (
+      tmdbMovieData.results[0].vote_average / 2 >= 2 &&
+      tmdbMovieData.results[0].vote_average / 2 < 3
+    ) {
+      zeroStarEl.style.display = "none";
+      oneStarEl.style.display = "none";
+      twoStarEl.style.display = "block";
+      threeStarEl.style.display = "none";
+      fourStarEl.style.display = "none";
+      fiveStarEl.style.display = "none";
+    } else if (
+      tmdbMovieData.results[0].vote_average / 2 >= 3 &&
+      tmdbMovieData.results[0].vote_average / 2 < 4
+    ) {
+      zeroStarEl.style.display = "none";
+      oneStarEl.style.display = "none";
+      twoStarEl.style.display = "none";
+      threeStarEl.style.display = "block";
+      fourStarEl.style.display = "none";
+      fiveStarEl.style.display = "none";
+    } else if (
+      tmdbMovieData.results[0].vote_average / 2 >= 4 &&
+      tmdbMovieData.results[0].vote_average / 2 < 5
+    ) {
+      zeroStarEl.style.display = "none";
+      oneStarEl.style.display = "none";
+      twoStarEl.style.display = "none";
+      threeStarEl.style.display = "none";
+      fourStarEl.style.display = "block";
+      fiveStarEl.style.display = "none";
+    } else {
+      zeroStarEl.style.display = "none";
+      oneStarEl.style.display = "none";
+      twoStarEl.style.display = "none";
+      threeStarEl.style.display = "none";
+      fourStarEl.style.display = "none";
+      fiveStarEl.style.display = "block";
+    }
+  }
+
+  // _______________________________________________________________________________
+  // _______________________________________________________________________________
+
+  //YouTube API call for Trailer access, pulling title from TMDB fetch
+  function getYouTube() {
+
+    var youtubeSearch = tmdbMovieData.results[currentMovieIndex].title;
+
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
+    )
+      .then((response) => response.json())
+      .then(function (data) {
+        localVideoId = data.items[0].id.videoId;
+        globalVideoId = localVideoId;
+
+        //onYouTubeIframeAPIReady()
+        player.loadVideoById(globalVideoId);
+
+        // getGlobalID();
+        // console.log(localVideoId)
+      });
+  }
+
+  // _______________________________________________________________________________
+  // _______________________________________________________________________________
+
   //fetching TMDB API for title, release date, rating, and overview for DOM
   fetch(
     `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKeyTmdb}&language=en-US&include_adult=false&with_genres=${genreSelect}`
   )
     .then((response) => response.json())
     .then(function (data) {
-      console.log(data);
-      
+      //console.log(data);
+
       tmdbMovieData = data
-      var movieTitle = $("#movieTitle");
-      var releaseDate = $("#releaseDate");
-      var movieOverview = $("#movieOverview");
+
       var nextEl = $("#next")[0];
       var prevEl = $("#prev")[0];
-      console.log(nextEl);
+      //console.log(nextEl);
 
-       currentMovieIndex = 0;
-      function writeContent() {
-        movieTitle.text(tmdbMovieData.results[currentMovieIndex].title);
-        releaseDate.text(tmdbMovieData.results[currentMovieIndex].release_date);
-        movieOverview.text(tmdbMovieData.results[currentMovieIndex].overview);
+      currentMovieIndex = 0;
 
-        var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
-        var posterSpecificUrl = tmdbMovieData.results[currentMovieIndex].poster_path;
 
-        var img = document.createElement("img");
-        img.src = posterBaseUrl + posterSpecificUrl;
-        var src = document.getElementById("moviePoster");
-        src.replaceChild(img, src.childNodes[0]);
+      // _______________________________________________________________________________
+      // _______________________________________________________________________________
 
-        if (currentMovieIndex === 0) {
-          nextEl.style.visibility = "visible";
-          prevEl.style.visibility = "hidden";
-        } else if (currentMovieIndex === 9) {
-          nextEl.style.visibility = "hidden";
-          prevEl.style.visibility = "visible";
-        } else {
-          nextEl.style.visibility = "visible";
-          prevEl.style.visibility = "visible";
-        }
-      }
-
+      //Save to local cache, event listener for buttons
       saveButtonEl.style.visibility = "visible";
 
       writeContent();
@@ -131,106 +244,16 @@ window.onclick = function (event) {
         paginate("prev");
       });
 
-      function paginate(dir) {
-        if (dir === "next") {
-          currentMovieIndex++;
-        } else if (dir === "prev") {
-          currentMovieIndex--;
-        }
-        
-        writeContent();
-        
-        console.log(currentMovieIndex);
-      }
-
-      
-      //Setting a visible rating through a five star rating system
-      function assignStars() {
-        if (tmdbMovieData.results[0].vote_average / 2 < 1) {
-          zeroStarEl.style.display = "block";
-          oneStarEl.style.display = "none";
-          twoStarEl.style.display = "none";
-          threeStarEl.style.display = "none";
-          fourStarEl.style.display = "none";
-          fiveStarEl.style.display = "none";
-        } else if (
-          tmdbMovieData.results[0].vote_average / 2 >= 1 &&
-          tmdbMovieData.results[0].vote_average / 2 < 2
-        ) {
-          zeroStarEl.style.display = "none";
-          oneStarEl.style.display = "block";
-          twoStarEl.style.display = "none";
-          threeStarEl.style.display = "none";
-          fourStarEl.style.display = "none";
-          fiveStarEl.style.display = "none";
-        } else if (
-          tmdbMovieData.results[0].vote_average / 2 >= 2 &&
-          tmdbMovieData.results[0].vote_average / 2 < 3
-        ) {
-          zeroStarEl.style.display = "none";
-          oneStarEl.style.display = "none";
-          twoStarEl.style.display = "block";
-          threeStarEl.style.display = "none";
-          fourStarEl.style.display = "none";
-          fiveStarEl.style.display = "none";
-        } else if (
-          tmdbMovieData.results[0].vote_average / 2 >= 3 &&
-          tmdbMovieData.results[0].vote_average / 2 < 4
-        ) {
-          zeroStarEl.style.display = "none";
-          oneStarEl.style.display = "none";
-          twoStarEl.style.display = "none";
-          threeStarEl.style.display = "block";
-          fourStarEl.style.display = "none";
-          fiveStarEl.style.display = "none";
-        } else if (
-          tmdbMovieData.results[0].vote_average / 2 >= 4 &&
-          tmdbMovieData.results[0].vote_average / 2 < 5
-        ) {
-          zeroStarEl.style.display = "none";
-          oneStarEl.style.display = "none";
-          twoStarEl.style.display = "none";
-          threeStarEl.style.display = "none";
-          fourStarEl.style.display = "block";
-          fiveStarEl.style.display = "none";
-        } else {
-          zeroStarEl.style.display = "none";
-          oneStarEl.style.display = "none";
-          twoStarEl.style.display = "none";
-          threeStarEl.style.display = "none";
-          fourStarEl.style.display = "none";
-          fiveStarEl.style.display = "block";
-        }
-      }
       assignStars();
-      // _______________________________________________________________________________
-      // _______________________________________________________________________________
 
-      //YouTube API call for Trailer access, pulling title from TMDB fecth
-      var youtubeSearch = tmdbMovieData.results[currentMovieIndex].title;
-
-      fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
-      )
-        .then((response) => response.json())
-        .then(function (data) {
-          localVideoId = data.items[0].id.videoId;
-
-          globalVideoId = localVideoId;
-          player.loadVideoById({ videoId: globalVideoId });
-          
-          // getGlobalID();
-          // console.log(localVideoId)
-        });
+      getYouTube()
     });
 };
-// end of the window.onclick function
+
 // _______________________________________________________________________________
 // _______________________________________________________________________________
 
 //IFrame YouTube video player pulled from YouTube iFrame API documentation
-
-// 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement("script");
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -257,28 +280,22 @@ function onYouTubeIframeAPIReady() {
 }
 function onPlayerStateChange(event) {
   if (event.data == YT.PlayerState.ENDED && done) {
-    console.log("load another video");
-      player.loadVideoById([globalVideoId], ctr);
-      ctr++;
+    // console.log("load another video");
+    player.loadVideoById([globalVideoId], ctr);
+    ctr++;
   }
 }
- 
-  function onPlayerReady(event) {
-    event.target.playVideo();
-  }
 
-  
-  var done = false;
-  
-    
-   
-      
-    
-  
+function onPlayerReady(event) {
+  event.target.playVideo();
+}
 
+var done = false;
+
+// _______________________________________________________________________________
+// _______________________________________________________________________________
 
 // My List modal
-
 var modal = document.getElementById("my-list");
 var myListBtn = document.getElementById("my-list-btn");
 var returnToResults = document.getElementById("return-to-results");
@@ -295,8 +312,12 @@ var closeModal = function () {
 
 returnToResults.addEventListener("click", closeModal);
 
+// _______________________________________________________________________________
+// _______________________________________________________________________________
+
+//Save to local storage function
 $("#saveButton").on("click", function () {
- 
+
   savedMovieObj = {
     Title: tmdbMovieData.results[currentMovieIndex].title,
     Release: tmdbMovieData.results[currentMovieIndex].release_date,
@@ -320,17 +341,17 @@ $("#saveButton").on("click", function () {
   }
 
   localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
-  console.log(movieHistArr);
+  //console.log(movieHistArr);
 
-  
-   $("#myList").empty()
+
+  $("#myList").empty()
   for (var i = 0; i < movieHistArr.length; i++) {
     var storedMovieEl = $(
       '<button class= "bg-slate-800 hover:bg-slate-600 w-full px-4 py-2 text-reg text-slate-400 rounded">'
     );
     var storedMovie = storedMovieEl
       .text(movieHistArr[i].Title)
-  
+
     $("#myList").append(storedMovie);
   }
 });
