@@ -5,6 +5,7 @@ var globalVideoId;
 var savedMovieObj;
 var tmdbMovieData;
 var currentMovieIndex;
+var player;
 
 var zeroStarEl = document.getElementById("zeroStar");
 var oneStarEl = document.getElementById("oneStar");
@@ -82,7 +83,8 @@ window.onclick = function (event) {
     .then((response) => response.json())
     .then(function (data) {
       console.log(data);
-tmdbMovieData = data
+      
+      tmdbMovieData = data
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
       var movieOverview = $("#movieOverview");
@@ -199,7 +201,7 @@ tmdbMovieData = data
       // _______________________________________________________________________________
 
       //YouTube API call for Trailer access, pulling title from TMDB fecth
-      var youtubeSearch = tmdbMovieData.results[0].title;
+      var youtubeSearch = tmdbMovieData.results[currentMovieIndex].title;
 
       fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
@@ -209,7 +211,9 @@ tmdbMovieData = data
           localVideoId = data.items[0].id.videoId;
 
           globalVideoId = localVideoId;
-          getGlobalID();
+          player.loadVideoById({ videoId: globalVideoId });
+          
+          // getGlobalID();
           // console.log(localVideoId)
         });
     });
@@ -230,13 +234,12 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 
-function onYouTubeIframeAPIReady() {}
-function getGlobalID() {
-  var player;
+function onYouTubeIframeAPIReady() {
+
   player = new YT.Player("player", {
     height: "300",
     width: "460",
-    videoId: globalVideoId + "?autoplay=1&mute=1&enablejsapi=0",
+    videoId: globalVideoId,
     playerVars: {
       playsinline: 1,
     },
@@ -245,28 +248,28 @@ function getGlobalID() {
       onStateChange: onPlayerStateChange,
     },
   });
-
-  console.log(globalVideoId);
-  // 4. The API will call this function when the video player is ready.
+}
+function onPlayerStateChange(event) {
+  if (event.data == YT.PlayerState.ENDED && done) {
+    console.log("load another video");
+      player.loadVideoById([globalVideoId], ctr);
+      ctr++;
+  }
+}
+ 
   function onPlayerReady(event) {
     event.target.playVideo();
   }
 
-  // 5. The API calls this function when the player's state changes.
-  //    The function indicates that when playing a video (state=1),
-  //    the player should play for six seconds and then stop.
+  
   var done = false;
-  function onPlayerStateChange(event) {
-    // if (event.data == YT.PlayerState.PLAYING && !done) {
-    //   done = true;
-    // }
-    if (event.data == YT.PlayerState.ENDED && done) {
-      console.log("load another video");
-      player.loadVideoById([globalVideoId], ctr);
-      ctr++;
-    }
-  }
-}
+  
+    
+   
+      
+    
+  
+
 
 // My List modal
 
@@ -321,49 +324,10 @@ $("#saveButton").on("click", function () {
     );
     var storedMovie = storedMovieEl
       .text(movieHistArr[i].Title)
-      
-    // storedMovie.click(function () {
-    //   console.log($(this).val());
-    //   // handleSubmit($(this).val());
-    // });
+  
     $("#myList").append(storedMovie);
   }
 });
 
-// $("#saveButton").on("click", function () {
-//   savedMovieObj = { 
-//     Title: data.results[0].title,
-//     Release: data.results[0].release_date,
-//     Overview: data.results[0].overview,
-//     Stars: data.results[0].vote_average / 2,
-//     Poster: data.results[0].poster_path,
-//     VideoID: globalVideoId,
-//    }
 
-//   var movieHistArr = JSON.parse(localStorage.getItem("savedMovieObj"));
-//   if (!movieHistArr) {
-//     movieHistArr = [];
-//   }
-//   if (!movieHistArr.includes(savedMovieObj)) {
-//     movieHistArr.push(savedMovieObj);
-//   }
-//   localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
-//   console.log(movieHistArr);
-
-
-
-// for (var i = 0; i < movieHistArr.length; i++) {
-//     var storedMovieEl = $(
-//       '<button class= "bg-slate-800 hover:bg-red-500 w-full px-4 py-2 text-reg text-slate-400 rounded">'
-//     );
-//     var storedMovie = storedMovieEl
-//       .text(data.results[0].title)
-//       .val(movieHistArr[i]);
-//     storedMovie.click(function () {
-//       console.log($(this).val());
-//       handleSubmit($(this).val());
-//     });
-//     $("#myList").append(storedMovie);
-//   }
-// });
 
