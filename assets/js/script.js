@@ -347,7 +347,7 @@ $("#saveButton").on("click", function () {
   $("#myList").empty()
   for (var i = 0; i < movieHistArr.length; i++) {
     var storedMovieEl = $(
-      '<button class= "bg-slate-800 hover:bg-slate-600 w-full px-4 py-2 text-reg text-slate-400 rounded">'
+      '<li class=  text-slate-400 ">'
     );
     var storedMovie = storedMovieEl
       .text(movieHistArr[i].Title)
