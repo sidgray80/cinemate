@@ -77,16 +77,14 @@ window.onclick = function (event) {
   )
     .then((response) => response.json())
     .then(function (data) {
-      console.log(data);
+      //console.log(data);
 
       var movieTitle = $("#movieTitle");
       var releaseDate = $("#releaseDate");
       var movieOverview = $("#movieOverview");
       var nextEl = $("#next")[0]
       var prevEl = $("#prev")[0]
-      console.log(nextEl)
-
-
+      //console.log(nextEl)
 
       var ind = 0;
       function writeContent() {
@@ -117,18 +115,12 @@ window.onclick = function (event) {
       }
       writeContent();
 
-
-
       nextEl.addEventListener("click", function () {
         paginate("next")
       })
       prevEl.addEventListener("click", function () {
         paginate("prev")
       })
-
-
-
-
 
       function paginate(dir) {
         if (dir === "next") {
@@ -138,9 +130,8 @@ window.onclick = function (event) {
         }
         writeContent()
 
-        console.log(ind)
+        //console.log(ind)
       }
-
 
       //Setting local storage with an array from the TMDB fetch call
 
@@ -163,7 +154,7 @@ window.onclick = function (event) {
         }
 
         localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
-        console.log(movieHistArr);
+        //console.log(movieHistArr);
 
         // _______________________________________________________________________________
         // $("myList").empty();
@@ -176,7 +167,7 @@ window.onclick = function (event) {
             .text(data.results[0].title)
             .val(movieHistArr[i]);
           storedMovie.click(function () {
-            console.log($(this).val());
+            //console.log($(this).val());
             // handleSubmit($(this).val());
           });
           $("#myList").append(storedMovie);
@@ -250,7 +241,7 @@ window.onclick = function (event) {
 
       //YouTube API call for Trailer access, pulling title from TMDB fecth
       var youtubeSearch = data.results[0].title;
-      console.log("player", player);
+      //console.log("player", player);
       fetch(
         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${youtubeSearch}trailer&key=${apiKeyYt}`
       )
@@ -259,7 +250,7 @@ window.onclick = function (event) {
           localVideoId = data.items[0].id.videoId;
 
           globalVideoId = localVideoId;
-          player.loadVideoById({videoId: globalVideoId});
+          player.loadVideoById({ videoId: globalVideoId });
           getGlobalID();
           // console.log(localVideoId)
         });
@@ -270,15 +261,11 @@ window.onclick = function (event) {
 
 //IFrame YouTube video player pulled from YouTube iFrame API documentation
 
-// 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement("script");
 
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
@@ -296,11 +283,8 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerStateChange(event) {
-  // if (event.data == YT.PlayerState.PLAYING && !done) {
-  //   done = true;
-  // }
   if (event.data == YT.PlayerState.ENDED && done) {
-    console.log("load another video");
+    //console.log("load another video");
     player.loadVideoById([globalVideoId], ctr);
     ctr++;
   }
@@ -308,17 +292,12 @@ function onPlayerStateChange(event) {
 
 function onPlayerReady(event) {
   event.target.playVideo();
-  }
+}
 
 function getGlobalID() {
-  console.log(globalVideoId);
-  // 4. The API will call this function when the video player is ready.
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-  }
+  //console.log(globalVideoId);
+  var done = false;
+}
 
 // My List modal
 
