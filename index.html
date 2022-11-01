@@ -23,19 +23,8 @@
               class="dropbtn inline-flex w-full justify-center rounded-md w-full justify-center bg-slate-800 px-4 py-2 text-reg text-slate-400 shadow-sm hover:bg-slate-700"
               id="menu-button" aria-expanded="true" aria-haspopup="true">
               Select a Genre &#9660
-              <!-- I have deleted this chevron icon thing. It was causing a lot of problems. I added one using a shortcut. -->
             </button>
 
-            <!--
-                        Dropdown menu, show/hide based on menu state.
-                    
-                        Entering: "transition ease-out duration-100"
-                          From: "transform opacity-0 scale-95"
-                          To: "transform opacity-100 scale-100"
-                        Leaving: "transition ease-in duration-75"
-                          From: "transform opacity-100 scale-100"
-                          To: "transform opacity-0 scale-95"
-                      -->
             <div id="myDropdown"
               class="dropdown-content absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-slate-800 shadow-lg"
               role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -102,7 +91,7 @@
 </div>
 
 
-
+<!--Main Content-->
     <div class="grid md:grid-cols-12 gap-3">
       
       <div id="prev" class="col-span-1"><i class="fa-solid fa-circle-arrow-left text-4xl text-red-500 hover:text-red-600"></i></div>
@@ -115,13 +104,12 @@
         <h2 id="movieTitle" class="text-3xl font-bold text-red-500 text-center"></h2>
         <p class = "text-center text-lg font-bold text-slate-400" id="releaseDate"></p>
         <p class = "text-center text-slate-400" id="movieRating"></p>
-        <div id = "zeroStar" class = "star text-center text-3xl">&#9734 &#9734 &#9734 &#9734 &#9734</div>
-        <div id = "oneStar" class = "star text-center text-3xl">&#9733 &#9734 &#9734 &#9734 &#9734</div>
-        <div id = "twoStar" class = "star text-center text-3xl">&#9733 &#9733 &#9734 &#9734 &#9734</div>
-        <div id = "threeStar" class = "star text-center text-3xl">&#9733 &#9733 &#9733 &#9734 &#9734 </div>
-        <div id = "fourStar" class = "star text-center text-3xl">&#9733 &#9733 &#9733 &#9733 &#9734</div>
-
-        <div id = "fiveStar" class = "star text-center text-3xl">&#9733 &#9733 &#9733 &#9733 &#9733 </div>
+        <div id = "zeroStar" class = "star text-center text-2xl text-red-500">&#9734 &#9734 &#9734 &#9734 &#9734</div>
+        <div id = "oneStar" class = "star text-center text-2xl text-red-500">&#9733 &#9734 &#9734 &#9734 &#9734</div>
+        <div id = "twoStar" class = "star text-center text-2xl text-red-500">&#9733 &#9733 &#9734 &#9734 &#9734</div>
+        <div id = "threeStar" class = "star text-center text-2xl text-red-500">&#9733 &#9733 &#9733 &#9734 &#9734 </div>
+        <div id = "fourStar" class = "star text-center text-2xl text-red-500">&#9733 &#9733 &#9733 &#9733 &#9734</div>
+        <div id = "fiveStar" class = "star text-center text-2xl text-red-500">&#9733 &#9733 &#9733 &#9733 &#9733 </div>
 
         
 
@@ -129,7 +117,7 @@
 
         <p class = "text-left text-reg text-slate-400" id="movieOverview"></p>
 
-        <button id = "saveButton" class = "saveButton">Save</button>
+        <button id = "saveButton" class = "saveButton text-white">Save</button>
       </div>
       
       <div id="next" class="col-span-1">
@@ -145,11 +133,11 @@
 
  
 
-  <footer class="grid md:grid-cols-3 gap-3 bg-slate-700 p-2 text-sm text-slate-400 bottom-0 fixed">
+  <footer class="grid md:grid-cols-3 gap-3 bg-slate-700 p-2 text-sm text-slate-400 bottom-0 static md:fixed">
 
     <div>Cinemate designed and built by: Kyle Albright, Alex Berger, Sid Gray, Nataly Rodriguez, Skipper Thurman, and Christian Walter.</div>
     
-    <div>Film-related metadata used in Cinemate is supplied by <a href="https://www.themoviedb.org/" class="text-slate-500">The Movie Database &nbsp</a>(TMDB).</div>
+    <div>Film-related metadata used in Cinemate is supplied by <a href="https://www.themoviedb.org/" class="text-slate-500 hover:text-slate-400">The Movie Database &nbsp</a>(TMDB).</div>
     
     <div><a href="https://www.themoviedb.org/"><img src="./assets/images/tmdblogo.svg" style="width:100px;height:min-content;"></a></div>
 
