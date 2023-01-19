@@ -1,6 +1,6 @@
 //Global Variables
 var apiKeyTmdb = "3c52eb6185be360b0965e24023804a4d";
-var apiKeyYt = "AIzaSyAKuwURWanoPzgJJe-WYMuRwwtyhrh3yY8";
+var apiKeyYt = "AIzaSyB4SxbxANp9hDSsPwYJPIveeWvmAhKQKzU";
 var globalVideoId;
 var savedMovieObj;
 var tmdbMovieData;
@@ -14,7 +14,8 @@ var twoStarEl = document.getElementById("twoStar");
 var threeStarEl = document.getElementById("threeStar");
 var fourStarEl = document.getElementById("fourStar");
 var fiveStarEl = document.getElementById("fiveStar");
-var saveButtonEl = document.getElementById("saveButton")
+var playerEl = document.getElementById("player")
+var saveButtonEl = document.getElementById("saveButton");
 var starEl = document.getElementsByClassName("star");
 var nextEl = $("#next")[0];
 var prevEl = $("#prev")[0];
@@ -85,13 +86,14 @@ window.onclick = function (event) {
     var movieTitle = $("#movieTitle");
     var releaseDate = $("#releaseDate");
     var movieOverview = $("#movieOverview");
-    movieData = tmdbMovieData.results
+    movieData = tmdbMovieData.results;
     movieTitle.text(tmdbMovieData.results[currentMovieIndex].title);
     releaseDate.text(tmdbMovieData.results[currentMovieIndex].release_date);
     movieOverview.text(tmdbMovieData.results[currentMovieIndex].overview);
 
     var posterBaseUrl = "https://image.tmdb.org/t/p/original/";
-    var posterSpecificUrl = tmdbMovieData.results[currentMovieIndex].poster_path;
+    var posterSpecificUrl =
+      tmdbMovieData.results[currentMovieIndex].poster_path;
 
     var img = document.createElement("img");
     img.src = posterBaseUrl + posterSpecificUrl;
@@ -118,7 +120,8 @@ window.onclick = function (event) {
     }
 
     writeContent();
-    getYouTube()
+    getYouTube();
+    assignStars()
 
     //console.log(currentMovieIndex);
   }
@@ -127,8 +130,9 @@ window.onclick = function (event) {
   // _______________________________________________________________________________
 
   //Setting a visible rating through a five star rating system
+
   function assignStars() {
-    if (tmdbMovieData.results[0].vote_average / 2 < 1) {
+    if (tmdbMovieData.results[currentMovieIndex].vote_average / 2 < 1) {
       zeroStarEl.style.display = "block";
       oneStarEl.style.display = "none";
       twoStarEl.style.display = "none";
@@ -136,8 +140,8 @@ window.onclick = function (event) {
       fourStarEl.style.display = "none";
       fiveStarEl.style.display = "none";
     } else if (
-      tmdbMovieData.results[0].vote_average / 2 >= 1 &&
-      tmdbMovieData.results[0].vote_average / 2 < 2
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 >= 1 &&
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 < 2
     ) {
       zeroStarEl.style.display = "none";
       oneStarEl.style.display = "block";
@@ -146,8 +150,8 @@ window.onclick = function (event) {
       fourStarEl.style.display = "none";
       fiveStarEl.style.display = "none";
     } else if (
-      tmdbMovieData.results[0].vote_average / 2 >= 2 &&
-      tmdbMovieData.results[0].vote_average / 2 < 3
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 >= 2 &&
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 < 3
     ) {
       zeroStarEl.style.display = "none";
       oneStarEl.style.display = "none";
@@ -156,8 +160,8 @@ window.onclick = function (event) {
       fourStarEl.style.display = "none";
       fiveStarEl.style.display = "none";
     } else if (
-      tmdbMovieData.results[0].vote_average / 2 >= 3 &&
-      tmdbMovieData.results[0].vote_average / 2 < 4
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 >= 3 &&
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 < 4
     ) {
       zeroStarEl.style.display = "none";
       oneStarEl.style.display = "none";
@@ -166,8 +170,8 @@ window.onclick = function (event) {
       fourStarEl.style.display = "none";
       fiveStarEl.style.display = "none";
     } else if (
-      tmdbMovieData.results[0].vote_average / 2 >= 4 &&
-      tmdbMovieData.results[0].vote_average / 2 < 5
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 >= 4 &&
+      tmdbMovieData.results[currentMovieIndex].vote_average / 2 < 5
     ) {
       zeroStarEl.style.display = "none";
       oneStarEl.style.display = "none";
@@ -183,6 +187,7 @@ window.onclick = function (event) {
       fourStarEl.style.display = "none";
       fiveStarEl.style.display = "block";
     }
+    // paginate(currentMovieIndex)
   }
 
   // _______________________________________________________________________________
@@ -190,7 +195,6 @@ window.onclick = function (event) {
 
   //YouTube API call for Trailer access, pulling title from TMDB fetch
   function getYouTube() {
-
     var youtubeSearch = tmdbMovieData.results[currentMovieIndex].title;
 
     fetch(
@@ -220,14 +224,13 @@ window.onclick = function (event) {
     .then(function (data) {
       //console.log(data);
 
-      tmdbMovieData = data
+      tmdbMovieData = data;
 
       var nextEl = $("#next")[0];
       var prevEl = $("#prev")[0];
       //console.log(nextEl);
 
       currentMovieIndex = 0;
-
 
       // _______________________________________________________________________________
       // _______________________________________________________________________________
@@ -246,7 +249,7 @@ window.onclick = function (event) {
 
       assignStars();
 
-      getYouTube()
+      getYouTube();
     });
 };
 
@@ -264,7 +267,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 
 function onYouTubeIframeAPIReady() {
-
   player = new YT.Player("player", {
     height: "100%",
     width: "100%",
@@ -317,7 +319,6 @@ returnToResults.addEventListener("click", closeModal);
 
 //Save to local storage function
 $("#saveButton").on("click", function () {
-
   savedMovieObj = {
     Title: tmdbMovieData.results[currentMovieIndex].title,
     Release: tmdbMovieData.results[currentMovieIndex].release_date,
@@ -343,18 +344,25 @@ $("#saveButton").on("click", function () {
   localStorage.setItem("savedMovieObj", JSON.stringify(movieHistArr));
   //console.log(movieHistArr);
 
-
-  $("#myList").empty()
+  $("#myList").empty();
   for (var i = 0; i < movieHistArr.length; i++) {
-    var storedMovieEl = $(
-      '<li class=  text-slate-400 ">'
-    );
-    var storedMovie = storedMovieEl
-      .text(movieHistArr[i].Title)
+    var storedMovieEl = $('<li class=  text-slate-400 ">');
+    var storedMovie = storedMovieEl.text(movieHistArr[i].Title);
 
     $("#myList").append(storedMovie);
   }
 });
 
+  var movieHistArr = JSON.parse(localStorage.getItem("savedMovieObj"));
+if (!movieHistArr) {
+  movieHistArr = [];
+}
 
+  $("#myList").empty();
+  for (var i = 0; i < movieHistArr.length; i++) {
+    var storedMovieEl = $('<li class=  text-slate-400 ">');
+    var storedMovie = storedMovieEl.text(movieHistArr[i].Title);
+
+    $("#myList").append(storedMovie);
+  }
 
